@@ -38,6 +38,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Ground
+    uniqueID: 2337593877
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: SoldierVisual
+    uniqueID: 693022295
+    locked: 0
+  - name: WorldUI
+    uniqueID: 3873808035
     locked: 0
