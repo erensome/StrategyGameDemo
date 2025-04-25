@@ -103,6 +103,10 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7238070720447282405, guid: 6b29f138fb4694d85bded06a4591d776, type: 3}
+      propertyPath: unitData
+      value: 
+      objectReference: {fileID: 11400000, guid: 36e819214a5f14695b9f9957edff03fa, type: 2}
     - target: {fileID: 7238070720447282406, guid: 6b29f138fb4694d85bded06a4591d776, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -149,7 +153,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7238070720447282408, guid: 6b29f138fb4694d85bded06a4591d776, type: 3}
       propertyPath: m_Name
-      value: Soldier 3
+      value: Soldier 3 Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b29f138fb4694d85bded06a4591d776, type: 3}
