@@ -1,11 +1,17 @@
 using UnityEngine;
 
 [RequireComponent(typeof(HealthComponent))]
+[RequireComponent(typeof(AttackerComponent))]
+[RequireComponent(typeof(SelectableComponent))]
 public class Soldier : MonoBehaviour, IPoolable
 {
+    [Header("Data")]
     [SerializeField] private SoldierUnitData unitData;
+    
+    [Header("Components")]
     [SerializeField] private HealthComponent healthComponent;
-    [SerializeField] private Transform visualsParent;
+    [SerializeField] private AttackerComponent attackerComponent;
+    [SerializeField] private SelectableComponent selectableComponent;
     
     private void Awake()
     {
@@ -15,12 +21,9 @@ public class Soldier : MonoBehaviour, IPoolable
         }
         
         healthComponent.MaxHealth = unitData.Health;
-        healthComponent.OnHealthChanged += HandleChangeHealth;
-        healthComponent.OnDeath += HandleDeath;
     }
     
     #region IPoolable
-
     public void Spawn()
     {
         // Initialize the soldier if needed
@@ -31,16 +34,5 @@ public class Soldier : MonoBehaviour, IPoolable
         // Reset health and other properties if needed
         healthComponent.ResetHealth();
     }
-
     #endregion
-    
-    private void HandleChangeHealth(float oldHealth, float newHealth)
-    {
-        Debug.Log($"Health changed from {oldHealth} to {newHealth}");
-    }
-    
-    private void HandleDeath()
-    {
-        Debug.Log("Soldier died");
-    }
 }
