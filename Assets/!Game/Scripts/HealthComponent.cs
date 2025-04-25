@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class HealthComponent : MonoBehaviour, IDamageable
 {
-    [SerializeField] private HealthBar healthBarPrefab;
-    private HealthBar healthBar;
-    private float health;
-    private float maxHealth;
+    [SerializeField] protected HealthBar healthBarPrefab;
+    protected HealthBar healthBar;
+    protected float health;
+    protected float maxHealth;
     
     public float Health => health;
     public float MaxHealth
@@ -19,12 +19,12 @@ public class HealthComponent : MonoBehaviour, IDamageable
     /// <summary>
     /// Called when the object takes damage, old health and new health respectively.
     /// </summary>
-    public Action<float, float> OnHealthChanged;
-    public Action OnDeath;
+    public event Action<float, float> OnHealthChanged;
+    public event Action OnDeath;
     
     private const float MinHealth = 0f;
 
-    private void Start()
+    protected virtual void Start()
     {
         health = maxHealth;
         
@@ -36,43 +36,36 @@ public class HealthComponent : MonoBehaviour, IDamageable
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            TakeDamage(1f);
-        }
-    }
-
-    public void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage)
     {
         if (IsDead) return;
         
         float oldHealth = health;
         health = Mathf.Clamp(health - damage, MinHealth, maxHealth);
-        healthBar.SetHealth(health);
+        if (healthBar != null) healthBar.SetHealth(health);
         if (health <= MinHealth) Die();
         
         OnHealthChanged?.Invoke(oldHealth, health);
     }
     
-    public void Heal(float heal)
+    public virtual void Heal(float heal)
     {
         if (IsDead) return;
         
         float oldHealth = health;
         health = Mathf.Clamp(health + heal, MinHealth, maxHealth);
-        healthBar.SetHealth(health);
+        if (healthBar != null) healthBar.SetHealth(health);
+        
         OnHealthChanged?.Invoke(oldHealth, health);
     }
     
-    public void Die()
+    public virtual void Die()
     {
         health = 0;
         OnDeath?.Invoke();
     }
     
-    public void ResetHealth()
+    public virtual void ResetHealth()
     {
         health = maxHealth;
     }
