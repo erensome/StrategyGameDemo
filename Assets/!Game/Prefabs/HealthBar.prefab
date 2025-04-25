@@ -297,6 +297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 5316261386712550944}
+  canvasGroup: {fileID: 3325063706876145531}
   fillImage: {fileID: 5316261388561077042}
   gradient:
     serializedVersion: 2
