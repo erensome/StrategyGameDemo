@@ -4,24 +4,32 @@ using UnityEngine;
 public class HealthComponent : MonoBehaviour, IDamageable
 {
     [SerializeField] protected HealthBar healthBarPrefab;
-    protected HealthBar healthBar;
+ 
+    // Fields
     protected float health;
     protected float maxHealth;
     
+    // Properties
     public float Health => health;
     public float MaxHealth
     {
         get => maxHealth;
         set => maxHealth = Mathf.Max(value, MinHealth);
     }
-    public bool IsDead => health <= 0;
+    public bool IsDead { get; private set; }
     
+    // Events
     /// <summary>
     /// Called when the object takes damage, old health and new health respectively.
     /// </summary>
     public event Action<float, float> OnHealthChanged;
+    
+    /// <summary>
+    /// Called when the object dies.
+    /// </summary>
     public event Action OnDeath;
     
+    // Constants
     private const float MinHealth = 0f;
 
     protected virtual void Start()
@@ -30,43 +38,73 @@ public class HealthComponent : MonoBehaviour, IDamageable
         
         if (healthBarPrefab != null)
         {
-            healthBar = Instantiate(healthBarPrefab, transform);
-            healthBar.SetMaxHealth(maxHealth);
-            healthBar.SetHealth(maxHealth);
+            Instantiate(healthBarPrefab, transform);
         }
     }
 
-    public virtual void TakeDamage(float damage)
+    private void Update()
+    {
+        // Example of how to use the health component
+        // This is just for demonstration purposes and should be removed in production code
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            TakeDamage(1f);
+        }
+    }
+
+    #region Virtual Methods
+
+    protected virtual void AfterTakeDamage() { }
+    protected virtual void AfterHeal() { }
+    protected virtual void AfterDie() { }
+    protected virtual void AfterReset() { }
+
+    #endregion
+    
+    #region Template Methods
+    public void TakeDamage(float damage)
     {
         if (IsDead) return;
         
         float oldHealth = health;
         health = Mathf.Clamp(health - damage, MinHealth, maxHealth);
-        if (healthBar != null) healthBar.SetHealth(health);
-        if (health <= MinHealth) Die();
-        
+        AfterTakeDamage();
         OnHealthChanged?.Invoke(oldHealth, health);
+        if (health <= MinHealth)
+        {
+            Die();
+        }
     }
     
-    public virtual void Heal(float heal)
+    public void Heal(float heal)
     {
         if (IsDead) return;
         
         float oldHealth = health;
         health = Mathf.Clamp(health + heal, MinHealth, maxHealth);
-        if (healthBar != null) healthBar.SetHealth(health);
         
+        AfterHeal();
         OnHealthChanged?.Invoke(oldHealth, health);
     }
     
-    public virtual void Die()
+    public void Die()
     {
-        health = 0;
+        if (IsDead) return;
+        
+        IsDead = true;
+        health = MinHealth;
+        AfterDie();
         OnDeath?.Invoke();
     }
     
-    public virtual void ResetHealth()
+    public void ResetHealth()
     {
+        if (IsDead) return;
+        
+        float oldHealth = health;
         health = maxHealth;
+        AfterReset();
+        OnHealthChanged?.Invoke(oldHealth, health);
     }
+    #endregion
 }
