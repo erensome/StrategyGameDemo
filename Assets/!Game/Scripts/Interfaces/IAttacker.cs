@@ -1,18 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class IAttacker : MonoBehaviour
+public interface IAttacker
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    float AttackDamage { get; }
+    float AttackRange { get; }
+    float AttackSpeed { get; }
+    
+    void Attack(IDamageable target);
+    void StopAttack();    
 }
