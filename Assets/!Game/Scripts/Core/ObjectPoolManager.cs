@@ -21,7 +21,6 @@ public enum PoolType
 public class ObjectPoolManager : MonoSingleton<ObjectPoolManager>
 {
     private readonly List<Transform> poolTypeParents = new();
-    // private readonly Dictionary<string, ObjectPool> objectPools = new();
     public List<ObjectPool> objectPools = new();
 
     private void Awake()
