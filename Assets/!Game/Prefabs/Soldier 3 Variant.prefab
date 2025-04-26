@@ -103,6 +103,50 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1393683466172355520, guid: 6b29f138fb4694d85bded06a4591d776, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2944344705072810896, guid: 6b29f138fb4694d85bded06a4591d776, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2944344705072810896, guid: 6b29f138fb4694d85bded06a4591d776, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2944344705072810896, guid: 6b29f138fb4694d85bded06a4591d776, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].time
+      value: 0.9854722
+      objectReference: {fileID: 0}
+    - target: {fileID: 2944344705072810896, guid: 6b29f138fb4694d85bded06a4591d776, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.10215895
+      objectReference: {fileID: 0}
+    - target: {fileID: 2944344705072810896, guid: 6b29f138fb4694d85bded06a4591d776, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2944344705072810896, guid: 6b29f138fb4694d85bded06a4591d776, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2944344705072810896, guid: 6b29f138fb4694d85bded06a4591d776, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].inWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2944344705072810896, guid: 6b29f138fb4694d85bded06a4591d776, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5973877570962105642, guid: 6b29f138fb4694d85bded06a4591d776, type: 3}
+      propertyPath: lineRenderer
+      value: 
+      objectReference: {fileID: 3691903454221618133}
+    - target: {fileID: 5973877570962105642, guid: 6b29f138fb4694d85bded06a4591d776, type: 3}
+      propertyPath: rifleMuzzleTransform
+      value: 
+      objectReference: {fileID: 6500934455920324783}
     - target: {fileID: 7238070720447282405, guid: 6b29f138fb4694d85bded06a4591d776, type: 3}
       propertyPath: unitData
       value: 
@@ -157,3 +201,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b29f138fb4694d85bded06a4591d776, type: 3}
+--- !u!120 &3691903454221618133 stripped
+LineRenderer:
+  m_CorrespondingSourceObject: {fileID: 2944344705072810896, guid: 6b29f138fb4694d85bded06a4591d776, type: 3}
+  m_PrefabInstance: {fileID: 2008657425992777797}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6500934455920324783 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4744500670386303210, guid: 6b29f138fb4694d85bded06a4591d776, type: 3}
+  m_PrefabInstance: {fileID: 2008657425992777797}
+  m_PrefabAsset: {fileID: 0}
