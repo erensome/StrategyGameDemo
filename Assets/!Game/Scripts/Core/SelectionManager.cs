@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SelectionManager : MonoBehaviour
+public class SelectionManager : MonoSingleton<SelectionManager>
 {
     public ISelectable CurrentSelectable => currentSelectable;
     private ISelectable currentSelectable;
