@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class HealthComponent : MonoBehaviour, IDamageable
 {
-    [SerializeField] protected HealthBar healthBarPrefab;
+    [SerializeField] private HealthBar healthBarPrefab;
  
     // Fields
-    protected float health;
-    protected float maxHealth;
+    private float health;
+    private float maxHealth;
     
     // Properties
     public float Health => health;
@@ -67,7 +67,7 @@ public class HealthComponent : MonoBehaviour, IDamageable
         if (IsDead) return;
         
         float oldHealth = health;
-        health = Mathf.Clamp(health - damage, MinHealth, maxHealth);
+        health = Mathf.Clamp(health - damage, MinHealth, MaxHealth);
         AfterTakeDamage();
         OnHealthChanged?.Invoke(oldHealth, health);
         if (health <= MinHealth)
@@ -81,7 +81,7 @@ public class HealthComponent : MonoBehaviour, IDamageable
         if (IsDead) return;
         
         float oldHealth = health;
-        health = Mathf.Clamp(health + heal, MinHealth, maxHealth);
+        health = Mathf.Clamp(health + heal, MinHealth, MaxHealth);
         
         AfterHeal();
         OnHealthChanged?.Invoke(oldHealth, health);
@@ -102,7 +102,7 @@ public class HealthComponent : MonoBehaviour, IDamageable
         if (IsDead) return;
         
         float oldHealth = health;
-        health = maxHealth;
+        health = MaxHealth;
         AfterReset();
         OnHealthChanged?.Invoke(oldHealth, health);
     }
