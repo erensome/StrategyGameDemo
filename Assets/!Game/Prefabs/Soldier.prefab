@@ -119,7 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityComponent: {fileID: 5607819160081879925}
-  healthComponent: {fileID: 7238070720447282404}
+  damageableComponent: {fileID: 7238070720447282404}
   attackerComponent: {fileID: 5973877570962105642}
   selectableComponent: {fileID: 5178407743693844242}
   movableComponent: {fileID: 1441234560328425688}

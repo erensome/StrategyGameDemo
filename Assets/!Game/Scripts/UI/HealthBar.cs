@@ -1,6 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using Components;
 
 public class HealthBar : MonoBehaviour
 {
@@ -14,19 +15,19 @@ public class HealthBar : MonoBehaviour
     [Header("Configs")]
     [SerializeField, Range(0.1f, 0.5f)] private float fadeDuration = 0.5f;
     
-    private HealthComponent healthComponent;
+    private DamageableComponent _damageableComponent;
 
     private const float DefaultWidth = 400f;
     private const float DefaultHeight= 75f;
     
     private void Start()
     {
-        healthComponent = GetComponentInParent<HealthComponent>();
-        if (healthComponent != null)
+        _damageableComponent = GetComponentInParent<DamageableComponent>();
+        if (_damageableComponent != null)
         {
-            SetMaxHealth(healthComponent.MaxHealth);
-            healthComponent.OnHealthChanged += UpdateHealthBar;
-            healthComponent.OnDeath += HandleDeath;
+            SetMaxHealth(_damageableComponent.MaxHealth);
+            _damageableComponent.OnHealthChanged += UpdateDamageableBar;
+            _damageableComponent.OnDeath += HandleDeath;
         }
         
         AdjustToParentSize();
@@ -54,7 +55,7 @@ public class HealthBar : MonoBehaviour
         fillImage.color = gradient.Evaluate(1f);
     }
 
-    private void UpdateHealthBar(float oldHealth, float newHealth)
+    private void UpdateDamageableBar(float oldHealth, float newHealth)
     {
         slider.value = newHealth;
         fillImage.color = gradient.Evaluate(slider.normalizedValue);
@@ -73,10 +74,10 @@ public class HealthBar : MonoBehaviour
     
     protected virtual void OnDestroy()
     {
-        if (healthComponent != null)
+        if (_damageableComponent != null)
         {
-            healthComponent.OnHealthChanged -= UpdateHealthBar;
-            healthComponent.OnDeath -= HandleDeath;
+            _damageableComponent.OnHealthChanged -= UpdateDamageableBar;
+            _damageableComponent.OnDeath -= HandleDeath;
         }
     }
 }

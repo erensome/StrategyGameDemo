@@ -31,7 +31,6 @@ public class InputManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             Vector3 worldPosition = GetWorldPosition();
-         
             MoveManager.Instance.HandleMove(worldPosition);
         }
     }

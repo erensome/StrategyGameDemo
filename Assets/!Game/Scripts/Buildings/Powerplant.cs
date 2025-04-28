@@ -1,7 +1,8 @@
 using UnityEngine;
+using Components;
 
 [RequireComponent(typeof(EntityComponent))]
-[RequireComponent(typeof(HealthComponent))]
+[RequireComponent(typeof(DamageableComponent))]
 [RequireComponent(typeof(SelectableComponent))]
 [RequireComponent(typeof(BlockerComponent))]
 public class Powerplant : MonoBehaviour
@@ -10,13 +11,13 @@ public class Powerplant : MonoBehaviour
     
     [Header("Components")]
     [SerializeField] private EntityComponent entityComponent;
-    [SerializeField] private HealthComponent healthComponent;
+    [SerializeField] private DamageableComponent damageableComponent;
     [SerializeField] private SelectableComponent selectableComponent;
     [SerializeField] private BlockerComponent blockerComponent;
 
     private void Awake()
     {
         buildingData = (BuildingData)entityComponent.EntityData;
-        healthComponent.MaxHealth = buildingData.Health;
+        damageableComponent.MaxHealth = buildingData.Health;
     }
 }

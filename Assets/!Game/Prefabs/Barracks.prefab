@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityComponent: {fileID: 5754208853918875271}
-  healthComponent: {fileID: 5754208853918875265}
+  damageableComponent: {fileID: 5754208853918875265}
   selectableComponent: {fileID: 5754208853918875264}
   spawnPoint: {fileID: 5754208854268377112}
 --- !u!212 &5754208853918875292

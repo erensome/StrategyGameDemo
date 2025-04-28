@@ -1,7 +1,8 @@
 using UnityEngine;
+using Components;
 
 [RequireComponent(typeof(EntityComponent))]
-[RequireComponent(typeof(HealthComponent))]
+[RequireComponent(typeof(DamageableComponent))]
 [RequireComponent(typeof(AttackerComponent))]
 [RequireComponent(typeof(SelectableComponent))]
 [RequireComponent(typeof(MovableComponent))]
@@ -11,7 +12,7 @@ public class Soldier : MonoBehaviour, IPoolable
     
     [Header("Components")]
     [SerializeField] private EntityComponent entityComponent;
-    [SerializeField] private HealthComponent healthComponent;
+    [SerializeField] private DamageableComponent damageableComponent;
     [SerializeField] private AttackerComponent attackerComponent;
     [SerializeField] private SelectableComponent selectableComponent;
     [SerializeField] private MovableComponent movableComponent;
@@ -24,8 +25,8 @@ public class Soldier : MonoBehaviour, IPoolable
     {
         unitData = (SoldierUnitData)entityComponent.EntityData;
         
-        healthComponent.MaxHealth = unitData.Health;
-        healthComponent.OnDeath += HandleDeath;
+        damageableComponent.MaxHealth = unitData.Health;
+        damageableComponent.OnDeath += HandleDeath;
         
         attackerComponent.AttackDamage = unitData.Damage;
         attackerComponent.OnAttack += HandleAttack;
@@ -68,7 +69,7 @@ public class Soldier : MonoBehaviour, IPoolable
     public void ReturnToPool()
     {
         // Reset health and other properties if needed
-        healthComponent.ResetHealth();
+        damageableComponent.ResetHealth();
     }
     #endregion
 }

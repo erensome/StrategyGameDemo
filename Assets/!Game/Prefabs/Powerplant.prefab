@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityComponent: {fileID: 6811349413739514105}
-  healthComponent: {fileID: 6811349413739514106}
+  damageableComponent: {fileID: 6811349413739514106}
   selectableComponent: {fileID: 6811349413739514107}
   blockerComponent: {fileID: 6811349413739514104}
 --- !u!212 &6811349413739514111
