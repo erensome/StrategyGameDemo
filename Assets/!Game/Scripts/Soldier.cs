@@ -1,15 +1,16 @@
 using UnityEngine;
 
+[RequireComponent(typeof(EntityComponent))]
 [RequireComponent(typeof(HealthComponent))]
 [RequireComponent(typeof(AttackerComponent))]
 [RequireComponent(typeof(SelectableComponent))]
 [RequireComponent(typeof(MovableComponent))]
 public class Soldier : MonoBehaviour, IPoolable
 {
-    [Header("Data")]
-    [SerializeField] private SoldierUnitData unitData;
+    private SoldierUnitData unitData;
     
     [Header("Components")]
+    [SerializeField] private EntityComponent entityComponent;
     [SerializeField] private HealthComponent healthComponent;
     [SerializeField] private AttackerComponent attackerComponent;
     [SerializeField] private SelectableComponent selectableComponent;
@@ -21,6 +22,8 @@ public class Soldier : MonoBehaviour, IPoolable
     
     private void Awake()
     {
+        unitData = (SoldierUnitData)entityComponent.EntityData;
+        
         healthComponent.MaxHealth = unitData.Health;
         healthComponent.OnDeath += HandleDeath;
         
@@ -40,14 +43,20 @@ public class Soldier : MonoBehaviour, IPoolable
         if (targetObject == null) return;
         
         Vector3 targetPosition = targetObject.transform.position;
-        Vector3 direction = targetPosition - transform.position;
-        direction.z = 0;
-        visualTransform.right = direction.normalized;
+        LookAt(targetPosition);
     }
     
     private void HandleTargetPositionChanged(Vector3 targetPosition)
     {
-        visualTransform.right = (targetPosition - transform.position).normalized;
+        LookAt(targetPosition);
+    }
+    
+    // I use Atan2 instead of transform.right because transform is not always right 
+    private void LookAt(Vector3 targetPosition)
+    {
+        Vector3 direction = targetPosition - transform.position;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        visualTransform.rotation = Quaternion.Euler(0f, 0f, angle);
     }
     
     #region IPoolable
