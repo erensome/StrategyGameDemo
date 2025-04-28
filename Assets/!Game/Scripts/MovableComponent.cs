@@ -15,7 +15,7 @@ public class MovableComponent : MonoBehaviour, IMovable
     
     public void Move(Vector3 targetPosition)
     {
-        List<Vector3> path = Pathfinding.Instance.FindPath(transform.position, targetPosition);
+        List<Vector3> path = GroundManager.Instance.Pathfinding.FindPath(transform.position, targetPosition);
         
         if (path == null || path.Count == 0)
         {
