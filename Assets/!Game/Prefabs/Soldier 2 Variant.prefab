@@ -103,6 +103,10 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5607819160081879925, guid: 6b29f138fb4694d85bded06a4591d776, type: 3}
+      propertyPath: entityData
+      value: 
+      objectReference: {fileID: 11400000, guid: 616f600a551df4077b1196dabca27f60, type: 2}
     - target: {fileID: 7238070720447282405, guid: 6b29f138fb4694d85bded06a4591d776, type: 3}
       propertyPath: unitData
       value: 
