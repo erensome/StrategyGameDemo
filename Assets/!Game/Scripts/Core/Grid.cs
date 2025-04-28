@@ -32,7 +32,6 @@ namespace GridSystem
             gridArray = new T[width, height];
             textArray = new TextMesh[width, height];
 
-            Transform parent = new GameObject("Grid").transform;
 
             for (int i = 0; i < width; i++)
             {
@@ -42,8 +41,9 @@ namespace GridSystem
                 }
             }
 
-            if (true) // Set to false to disable world text and grid lines
+            if (false) // Set to false to disable world text and grid lines
             {
+                Transform parent = new GameObject("Grid").transform;
                 for (int i = 0; i < width; i++)
                 {
                     for (int j = 0; j < height; j++)

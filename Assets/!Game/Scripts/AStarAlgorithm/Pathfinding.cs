@@ -11,16 +11,14 @@ namespace AStarAlgorithm
         private HashSet<PathNode> closedList;
         
         public Grid<PathNode> Grid => grid;
-        public static Pathfinding Instance { get; private set; } // Singleton instance
         
         // Costs for movement
         private const int StraightCost = 10;
         private const int DiagonalCost = 14;
 
-        public Pathfinding(int width, int height)
+        public Pathfinding(int width, int height, float cellSize, Vector3 originPosition)
         {
-            Instance = this; // set the singleton instance
-            grid = new Grid<PathNode>(width, height, 1f, Vector3.zero,
+            grid = new Grid<PathNode>(width, height, cellSize, originPosition,
                 (g, x, y) => new PathNode(g, x, y, true));
         }
         
