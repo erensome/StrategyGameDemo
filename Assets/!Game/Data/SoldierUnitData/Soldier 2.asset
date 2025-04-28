@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Soldier 2
   m_EditorClassIdentifier: 
   Name: Soldier 2
+  Size: {x: 1, y: 1}
   Health: 10
   Damage: 5
   Prefab: {fileID: 0}
