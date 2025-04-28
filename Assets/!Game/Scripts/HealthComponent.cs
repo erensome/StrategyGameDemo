@@ -4,7 +4,7 @@ using UnityEngine;
 public class HealthComponent : MonoBehaviour, IDamageable
 {
     [SerializeField] private HealthBar healthBarPrefab;
- 
+    
     // Fields
     private float health;
     private float maxHealth;
@@ -39,16 +39,6 @@ public class HealthComponent : MonoBehaviour, IDamageable
         if (healthBarPrefab != null)
         {
             Instantiate(healthBarPrefab, transform);
-        }
-    }
-
-    private void Update()
-    {
-        // Example of how to use the health component
-        // This is just for demonstration purposes and should be removed in production code
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            TakeDamage(1f);
         }
     }
 

@@ -5,12 +5,19 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     [Header("References")]
+    [SerializeField] private RectTransform rectTransform; // RectTransform of the health bar
     [SerializeField] private Slider slider;
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private Image fillImage;
     [SerializeField] private Gradient gradient;
-
+    
+    [Header("Configs")]
+    [SerializeField, Range(0.1f, 0.5f)] private float fadeDuration = 0.5f;
+    
     private HealthComponent healthComponent;
+
+    private const float DefaultWidth = 400f;
+    private const float DefaultHeight= 75f;
     
     private void Start()
     {
@@ -22,7 +29,22 @@ public class HealthBar : MonoBehaviour
             healthComponent.OnDeath += HandleDeath;
         }
         
-        transform.localPosition = new Vector3(0, 0.55f, 0);
+        AdjustToParentSize();
+    }
+    
+    private void AdjustToParentSize()
+    {
+        Transform parent = transform.parent;
+        if (parent == null)
+            return;
+
+        EntityData entityData = parent.GetComponent<EntityComponent>().EntityData;
+        Vector2Int size = entityData.Size;
+        Vector3 parentScale = parent.localScale;
+        
+        // Remove parent's scale effect from canvas size
+        rectTransform.sizeDelta = new Vector2(size.x * DefaultWidth / parentScale.x, DefaultHeight / parentScale.y);
+        transform.localPosition = new Vector3(0f, size.y / 1.5f, 0f);
     }
     
     private void SetMaxHealth(float maxHealth)
@@ -42,7 +64,7 @@ public class HealthBar : MonoBehaviour
     {
         slider.value = 0;
         
-        canvasGroup.DOFade(0, 0.5f)
+        canvasGroup.DOFade(0, fadeDuration)
             .OnComplete(() =>
             {
                 Destroy(gameObject);

@@ -129,7 +129,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 600, y: 75}
+  m_SizeDelta: {x: 400, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5316261386871217683
 Canvas:
@@ -296,6 +296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf8c905209bcf420f99b7e538f515d00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rectTransform: {fileID: 5316261386871217686}
   slider: {fileID: 5316261386712550944}
   canvasGroup: {fileID: 3325063706876145531}
   fillImage: {fileID: 5316261388561077042}
@@ -328,6 +329,7 @@ MonoBehaviour:
     m_Mode: 1
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
+  fadeDuration: 0.5
 --- !u!1 &5316261387913659720
 GameObject:
   m_ObjectHideFlags: 0
