@@ -16,10 +16,10 @@ namespace AStarAlgorithm
         private const int StraightCost = 10;
         private const int DiagonalCost = 14;
 
-        public Pathfinding(int width, int height, float cellSize, Vector3 originPosition)
+        public Pathfinding(int width, int height, float cellSize, Vector3 originPosition, bool showDebug = false)
         {
             grid = new Grid<PathNode>(width, height, cellSize, originPosition,
-                (g, x, y) => new PathNode(g, x, y, true));
+                (g, x, y) => new PathNode(g, x, y, true), showDebug);
         }
         
         public PathNode GetNode(int x, int y)
@@ -48,7 +48,7 @@ namespace AStarAlgorithm
             PathNode startNode = grid.GetGridObject(startX, startY);
             PathNode endNode = grid.GetGridObject(endX, endY);
             
-            if (!endNode.isWalkable || !startNode.isWalkable)
+            if (!endNode.IsWalkable || !startNode.IsWalkable)
             {
                 Debug.LogWarning("Start or end node is not walkable");
                 return null;
@@ -77,7 +77,7 @@ namespace AStarAlgorithm
                 foreach (PathNode neighbourNode in GetNeighbourList(currentNode))
                 {
                     if (closedList.Contains(neighbourNode)) continue; // Already evaluated
-                    if (!neighbourNode.isWalkable) // Not walkable
+                    if (!neighbourNode.IsWalkable) // Not walkable
                     {
                         closedList.Add(neighbourNode);
                         continue;

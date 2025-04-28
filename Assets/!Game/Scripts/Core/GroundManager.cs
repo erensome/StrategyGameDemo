@@ -21,20 +21,35 @@ public class GroundManager : MonoSingleton<GroundManager>
     [SerializeField] private Sprite[] groundSprites;
     [SerializeField] private Sprite wallSprite;
     
+    [Header("Debug")]
+    [SerializeField] private bool showDebugGrid = false;
+    
     private Grid<GroundCell> grid;
     private Pathfinding pathfinding; // includes Grid<PathNode> grid
+    private Vector2 visualOffset; // to center the cell sprites we should add visualOffset to the cell position
+    
     public Pathfinding Pathfinding => pathfinding;
+    public float CellSize => cellSize;
     
     private void Awake()
     {
+        visualOffset = Vector2.one * cellSize * 0.5f;
         InitializePathfinding();
-    }
-
-    private void Start()
-    {
         InitializeCells();
     }
-
+    
+    public void SetWalkableGround(Vector3 position, bool isWalkable)
+    {
+        grid.GetXY(position, out int x, out int y);
+        SetWalkableGround(x, y, isWalkable);
+    }
+    
+    public void SetWalkableGround(int x, int y, bool isWalkable)
+    {
+        var s = grid.GetGridObject(x, y);
+        s.PathNode.IsWalkable = isWalkable;
+    }
+    
     /// <summary>
     /// Initialize path nodes
     /// </summary>
@@ -45,7 +60,8 @@ public class GroundManager : MonoSingleton<GroundManager>
             Mathf.FloorToInt(width / cellSize),
             Mathf.FloorToInt(height / cellSize),
             cellSize,
-            worldOriginPoint.position
+            worldOriginPoint.position,
+            showDebugGrid
         );
     }
 
@@ -67,21 +83,23 @@ public class GroundManager : MonoSingleton<GroundManager>
 
         Transform cellTransform = cell.transform;
         cellTransform.SetParent(worldOriginPoint);
-        cellTransform.localPosition = new Vector3(x * cellSize, y * cellSize , 0);
+        cellTransform.localPosition = new Vector2(x * cellSize, y * cellSize) + visualOffset;
         
-        Sprite sprite = DetermineSprite(x, y);
+        bool isWall = IsWall(x, y);
+        Sprite sprite = SetSprite(isWall);
         cell.Initialize(grid, x, y, sprite, pathfinding.GetNode(x, y));
-
+        cell.PathNode.IsWalkable = !isWall; // set walkable to false for the sides and corners
         return cell;
     }
 
-    private Sprite DetermineSprite(int x, int y)
+    private Sprite SetSprite(bool isWall)
     {
-        if (x == 0 || y == 0 || x == width - 1 || y == height - 1)
-        {
-            return wallSprite;
-        }
-        
-        return groundSprites[Random.Range(0, groundSprites.Length)];
+        return isWall ? wallSprite : groundSprites[Random.Range(0, groundSprites.Length)];
+    }
+    
+    // This method is used to check if the cell is a wall or not
+    private bool IsWall(int x, int y)
+    {
+        return x == 0 || y == 0 || x == width - 1 || y == height - 1;
     }
 }

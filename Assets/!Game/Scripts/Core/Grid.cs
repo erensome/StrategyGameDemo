@@ -23,7 +23,7 @@ namespace GridSystem
         public float CellSize => cellSize;
         public Vector3 OriginPosition => originPosition;
         
-        public Grid(int width, int height, float cellSize, Vector3 originPosition, Func<Grid<T>, int, int, T> createGridObject)
+        public Grid(int width, int height, float cellSize, Vector3 originPosition, Func<Grid<T>, int, int, T> createGridObject, bool showDebug = false)
         {
             this.width = width;
             this.height = height;
@@ -41,14 +41,14 @@ namespace GridSystem
                 }
             }
 
-            if (false) // Set to false to disable world text and grid lines
+            if (showDebug) // Set to false to disable world text and grid lines
             {
                 Transform parent = new GameObject("Grid").transform;
                 for (int i = 0; i < width; i++)
                 {
                     for (int j = 0; j < height; j++)
                     {
-                        Vector3 position = GetWorldPosition(i, j) + new Vector3(cellSize, cellSize) * 0.5f;
+                        Vector3 position = GetWorldPosition(i, j) + new Vector3(cellSize, cellSize) * 0.5f; // center the text
                         var worldText = TestUtils.CreateWorldText(gridArray[i, j]?.ToString(), parent, position, Color.white);
                         textArray[i, j] = worldText;
 

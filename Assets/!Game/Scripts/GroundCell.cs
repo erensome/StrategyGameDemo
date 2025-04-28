@@ -13,6 +13,8 @@ public class GroundCell : MonoBehaviour
     private int x, y; // cell coordinates
     private PathNode pathNode; // A* pathfinding node reference
     
+    public PathNode PathNode => pathNode;
+    
     public void Initialize(Grid<GroundCell> grid, int x, int y, Sprite sprite, PathNode pathNode)
     {
         this.grid = grid;
