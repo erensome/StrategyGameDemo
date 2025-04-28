@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// Requires a BoxCollider2D component to detect clicks with ray casting
+[RequireComponent(typeof(BoxCollider2D))]
 public class SelectableComponent : MonoBehaviour, ISelectable
 {
     public void Select()

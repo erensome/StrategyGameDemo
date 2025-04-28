@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using AStarAlgorithm;
 using UnityEngine;
 
 public class MovableComponent : MonoBehaviour, IMovable
@@ -23,6 +22,7 @@ public class MovableComponent : MonoBehaviour, IMovable
             return;
         }
         
+        path.RemoveAt(0); // Remove the first position (current position)
         StopMoveCoroutine();
         moveCoroutine = StartCoroutine(MoveTo(path));
     }
