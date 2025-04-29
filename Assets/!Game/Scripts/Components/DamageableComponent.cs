@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UI;
 
 namespace Components
 {
@@ -66,7 +67,7 @@ namespace Components
 
         #endregion
 
-        #region Template Methods
+        #region IDamageable-Template Methods
 
         public void TakeDamage(float damage)
         {
