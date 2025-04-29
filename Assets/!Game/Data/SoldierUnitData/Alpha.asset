@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90f3fe6469e144298bde01ac36b48008, type: 3}
-  m_Name: Soldier 1
+  m_Name: Alpha
   m_EditorClassIdentifier: 
-  Name: Soldier 1
+  Name: Alpha
   Size: {x: 1, y: 1}
+  Icon: {fileID: -647139941, guid: 4c9620c14490c486d935d3b0c5b461b0, type: 3}
   Health: 10
   Damage: 10
-  Prefab: {fileID: 0}
+  SoldierType: 0
