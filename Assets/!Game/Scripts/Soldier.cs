@@ -6,7 +6,8 @@ using Components;
 [RequireComponent(typeof(AttackerComponent))]
 [RequireComponent(typeof(SelectableComponent))]
 [RequireComponent(typeof(MovableComponent))]
-public class Soldier : MonoBehaviour, IPoolable
+[RequireComponent(typeof(SoldierProduct))]
+public class Soldier : MonoBehaviour
 {
     private SoldierUnitData unitData;
     
@@ -16,6 +17,7 @@ public class Soldier : MonoBehaviour, IPoolable
     [SerializeField] private AttackerComponent attackerComponent;
     [SerializeField] private SelectableComponent selectableComponent;
     [SerializeField] private MovableComponent movableComponent;
+    [SerializeField] private SoldierProduct soldierProduct;
     
     [Header("References")]
     [SerializeField, Tooltip("Visual parent, using for look at rotations")]
@@ -28,14 +30,17 @@ public class Soldier : MonoBehaviour, IPoolable
         damageableComponent.MaxHealth = unitData.Health;
         damageableComponent.OnDeath += HandleDeath;
         
+        soldierProduct.OnReturnedToPool += damageableComponent.ResetHealth;
+        
         attackerComponent.AttackDamage = unitData.Damage;
         attackerComponent.OnAttack += HandleAttack;
+        
         movableComponent.OnTargetPositionChanged += HandleTargetPositionChanged;
     }
 
     private void HandleDeath()
     {
-        ObjectPoolManager.Instance.ReturnObjectToPool(PoolType.Soldier, gameObject);
+        ObjectPoolManager.Instance.ReturnObjectToPool(unitData.Name, gameObject);
     }
     
     private void HandleAttack(IAttacker attacker, IDamageable target)
@@ -59,17 +64,4 @@ public class Soldier : MonoBehaviour, IPoolable
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         visualTransform.rotation = Quaternion.Euler(0f, 0f, angle);
     }
-    
-    #region IPoolable
-    public void Spawn()
-    {
-        // Initialize the soldier if needed
-    }
-
-    public void ReturnToPool()
-    {
-        // Reset health and other properties if needed
-        damageableComponent.ResetHealth();
-    }
-    #endregion
 }

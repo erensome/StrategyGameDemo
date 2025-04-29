@@ -7,47 +7,91 @@ public class ObjectPool
 {
     public string Name;
     public GameObject Prefab;
+    public int PreallocateCount;
     public readonly List<GameObject> AvailableObjects = new();
-}
-
-public enum PoolType
-{
-    None,
-    Soldier,
-    Barracks,
-    PowerPlant
 }
 
 public class ObjectPoolManager : MonoSingleton<ObjectPoolManager>
 {
-    private readonly List<Transform> poolTypeParents = new();
     [SerializeField] private List<ObjectPool> objectPools = new();
 
+    private readonly List<Transform> poolParents = new();
+    private readonly Dictionary<string, ObjectPool> objectPoolDictionary = new();
+    
     private void Awake()
     {
-        SetupPooledObjectsParent();
+        InitPoolParents();
+        InitObjectPoolDictionary();
+        PreallocateObjects();
     }
     
-    private void SetupPooledObjectsParent()
+    private void InitPoolParents()
     {
-        if (poolTypeParents.Count == 0)
+        if (poolParents.Count == 0)
         {
             GameObject pooledObjectsParent = new GameObject("PooledObjects");
-            foreach (PoolType poolType in Enum.GetValues(typeof(PoolType)))
+            foreach (ObjectPool objectPool in objectPools)
             {
-                if (poolType == PoolType.None) continue;
-                
-                GameObject poolTypeParent = new GameObject(poolType.ToString());
+                GameObject poolTypeParent = new GameObject(objectPool.Name);
                 poolTypeParent.transform.SetParent(pooledObjectsParent.transform);
-                poolTypeParents.Add(poolTypeParent.transform);
+                poolParents.Add(poolTypeParent.transform);
             }
         }
     }
 
-    public GameObject GetObjectFromPool(PoolType poolType, Transform parent = null)
+    private void InitObjectPoolDictionary()
     {
-        string poolName = poolType.ToString();
-        ObjectPool objectPool = objectPools.Find(x => x.Name == poolName);
+        objectPoolDictionary.Clear();
+        foreach (ObjectPool objectPool in objectPools)
+        {
+            if (!string.IsNullOrEmpty(objectPool.Name) && objectPool.Prefab != null)
+            {
+                objectPoolDictionary[objectPool.Name] = objectPool;
+            }
+            else
+            {
+                Debug.LogWarning($"Invalid pool definition. Name: {objectPool.Name}, Prefab: {objectPool.Prefab}");
+            }
+        }
+    }
+    
+    private void PreallocateObjects()
+    {
+        foreach (var pool in objectPools)
+        {
+            if (pool.PreallocateCount > 0 && pool.Prefab != null)
+            {
+                for (int i = 0; i < pool.PreallocateCount; i++)
+                {
+                    GameObject obj = Instantiate(pool.Prefab);
+                    obj.SetActive(false);
+                    
+                    Transform parent = GetPoolTypeParent(pool);
+                    if (parent != null)
+                    {
+                        obj.transform.SetParent(parent);
+                    }
+                    
+                    pool.AvailableObjects.Add(obj);
+                }
+            }
+        }
+    }
+    
+    public GameObject GetObjectFromPool(string poolName, Transform parent = null)
+    {
+        if (string.IsNullOrEmpty(poolName))
+        {
+            Debug.LogError("Pool name cannot be null or empty.");
+            return null;
+        }
+        
+        if (!objectPoolDictionary.TryGetValue(poolName, out ObjectPool objectPool))
+        {
+            Debug.LogError($"Object pool for '{poolName}' not found.");
+            return null;
+        }
+        
         if (objectPool == null)
         {
             Debug.LogError($"Object pool for {poolName} not found.");
@@ -70,38 +114,58 @@ public class ObjectPoolManager : MonoSingleton<ObjectPoolManager>
         obj.SetActive(true);
         
         IPoolable poolable = obj.GetComponent<IPoolable>();
-        if (poolable != null)
-        {
-            poolable.Spawn();
-        }
+        poolable?.Spawn();
 
         return obj;
     }
     
-    public void ReturnObjectToPool(PoolType poolType, GameObject obj)
+    public GameObject GetObjectFromPool(string poolName, Vector3 position, Quaternion rotation, Transform parent = null)
     {
-        string poolName = poolType.ToString();
-        ObjectPool objectPool = objectPools.Find(x => x.Name == poolName);
+        GameObject obj = GetObjectFromPool(poolName, parent);
+        if (obj != null)
+        {
+            obj.transform.SetPositionAndRotation(position, rotation);
+        }
+        return obj;
+    }
+    
+    public void ReturnObjectToPool(string poolName, GameObject obj)
+    {
+        if (obj == null)
+        {
+            Debug.LogWarning("Cannot return null object to pool.");
+            return;
+        }
+        
+        if (string.IsNullOrEmpty(poolName))
+        {
+            Debug.LogError("Pool name cannot be null or empty.");
+            return;
+        }
+        
+        if (!objectPoolDictionary.TryGetValue(poolName, out ObjectPool objectPool))
+        {
+            Debug.LogError($"Object pool for '{poolName}' not found.");
+            return;
+        }
+        
         if (objectPool == null)
         {
             Debug.LogError($"Object pool for {poolName} not found.");
             return;
         }
-
-        obj.SetActive(false);
-        Transform parent = GetPoolTypeParent(poolType);
-        obj.transform.SetParent(parent);
-        objectPool.AvailableObjects.Add(obj);
         
         IPoolable poolable = obj.GetComponent<IPoolable>();
-        if (poolable != null)
-        {
-            poolable.ReturnToPool();
-        }
+        poolable?.ReturnToPool();
+
+        obj.SetActive(false);
+        Transform parent = GetPoolTypeParent(objectPool);
+        obj.transform.SetParent(parent);
+        objectPool.AvailableObjects.Add(obj);
     }
     
-    private Transform GetPoolTypeParent(PoolType poolType)
+    private Transform GetPoolTypeParent(ObjectPool objectPool)
     {
-        return poolTypeParents.Find(x => x.name == poolType.ToString());
+        return poolParents.Find(x => x.name == objectPool.Name);
     }
 }

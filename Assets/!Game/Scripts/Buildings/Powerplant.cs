@@ -5,6 +5,8 @@ using Components;
 [RequireComponent(typeof(DamageableComponent))]
 [RequireComponent(typeof(SelectableComponent))]
 [RequireComponent(typeof(BlockerComponent))]
+[RequireComponent(typeof(BuildingProduct))]
+[RequireComponent(typeof(BuildableComponent))]
 public class Powerplant : MonoBehaviour
 {
     private BuildingData buildingData;
@@ -14,6 +16,8 @@ public class Powerplant : MonoBehaviour
     [SerializeField] private DamageableComponent damageableComponent;
     [SerializeField] private SelectableComponent selectableComponent;
     [SerializeField] private BlockerComponent blockerComponent;
+    [SerializeField] private BuildingProduct buildingProduct;
+    [SerializeField] private BuildableComponent buildableComponent;
 
     private void Awake()
     {
