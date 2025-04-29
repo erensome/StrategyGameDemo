@@ -1,4 +1,7 @@
+using Components;
+using EventBus;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class SelectionManager : MonoSingleton<SelectionManager>
 {
@@ -9,6 +12,12 @@ public class SelectionManager : MonoSingleton<SelectionManager>
 
     public void HandleSelection(Vector3 worldPosition)
     {
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+        {
+            // Ignore clicks on UI elements
+            return;
+        }
+        
         RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
 
         if (hit.collider == null) // Clicked on empty space
@@ -38,6 +47,12 @@ public class SelectionManager : MonoSingleton<SelectionManager>
         currentSelectable = newSelectable;
         currentSelectable.Select();
         SelectEffect();
+        
+        if (currentSelectable is MonoBehaviour component)
+        {
+            EntityComponent entityComponent = component.GetComponent<EntityComponent>();
+            GameEventBus.TriggerEntitySelected(entityComponent.EntityData);
+        }
     }
 
     private void DeselectCurrent()
@@ -47,6 +62,7 @@ public class SelectionManager : MonoSingleton<SelectionManager>
         currentSelectable?.Deselect();
         DeselectEffect();
         currentSelectable = null;
+        GameEventBus.TriggerEntitySelected(null); // Trigger event with null to clear selection
     }
 
     private void SelectEffect()

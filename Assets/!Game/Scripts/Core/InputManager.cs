@@ -33,6 +33,10 @@ public class InputManager : MonoBehaviour
             Vector3 worldPosition = GetWorldPosition();
             MoveManager.Instance.HandleMove(worldPosition);
         }
+        else if (Input.GetKeyDown(KeyCode.B))
+        {
+            BuildManager.Instance.HandleBuild();
+        }
     }
 
     private Vector3 GetWorldPosition()
