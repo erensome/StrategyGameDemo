@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 6811349413739514106}
   - component: {fileID: 6811349413739514107}
   - component: {fileID: 6811349413739514104}
+  - component: {fileID: 7412876508425999937}
+  - component: {fileID: 8529132869704099019}
   - component: {fileID: 6811349413739514108}
   - component: {fileID: 6811349413739514111}
   - component: {fileID: 6811349413739514109}
@@ -88,6 +90,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5ed5ae674b0c4e418591422292014e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7412876508425999937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6811349413739514080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dab30f3e708b4ea5b5d2e5b1d2137ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8529132869704099019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6811349413739514080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35d9ac0491a134a26870b822f24a2eaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6811349413739514108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,6 +130,8 @@ MonoBehaviour:
   damageableComponent: {fileID: 6811349413739514106}
   selectableComponent: {fileID: 6811349413739514107}
   blockerComponent: {fileID: 6811349413739514104}
+  buildingProduct: {fileID: 7412876508425999937}
+  buildableComponent: {fileID: 8529132869704099019}
 --- !u!212 &6811349413739514111
 SpriteRenderer:
   m_ObjectHideFlags: 0

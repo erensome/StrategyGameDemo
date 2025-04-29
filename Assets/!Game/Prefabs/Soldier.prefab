@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5973877570962105642}
   - component: {fileID: 5178407743693844242}
   - component: {fileID: 1441234560328425688}
+  - component: {fileID: 1135582447030548695}
   - component: {fileID: 7238070720447282405}
   - component: {fileID: 4727028857980620070}
   m_Layer: 0
@@ -106,6 +107,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+--- !u!114 &1135582447030548695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7238070720447282408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 480a5182760a14d2d95267c3a2b26afd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7238070720447282405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,6 +136,7 @@ MonoBehaviour:
   attackerComponent: {fileID: 5973877570962105642}
   selectableComponent: {fileID: 5178407743693844242}
   movableComponent: {fileID: 1441234560328425688}
+  soldierProduct: {fileID: 1135582447030548695}
   visualTransform: {fileID: 6529981174442666036}
 --- !u!61 &4727028857980620070
 BoxCollider2D:
