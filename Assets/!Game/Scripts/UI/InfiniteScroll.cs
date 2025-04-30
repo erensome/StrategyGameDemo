@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using EventBus;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,14 +11,11 @@ namespace UI
         [Header("Data")]
         [SerializeField] private List<BuildingData> buildingDataList = new();
 
-        [Header("References")]
-        [SerializeField] private ProductionMenuItem productionMenuItemPrefab;
-
         [SerializeField] private RectTransform scrollRectTransform;
         [SerializeField] private RectTransform contentRectTransform;
         [SerializeField] private GridLayoutGroup gridLayoutGroup;
 
-        private int topIndex, bottomIndex; // index of the top and bottom items
+        private ProductionMenuItem lastSelectedItem; // last focused item
         private int columnCount; // number of columns in the grid layout group
         private int itemCount; // total created items count
         private float viewportHeight; // total height of the scroll view
@@ -26,13 +25,23 @@ namespace UI
         private readonly List<RectTransform> items = new();
         
         private float Threshold => cellHeight + cellSpacing; // threshold for moving items
-        
+
+        private void Awake()
+        {
+            UIEventBus.OnProductionMenuItemSelected += HandleProductionMenuItemSelected;
+        }
+
         // Start is called before the first frame update
         void Start()
         {
             Init();
             FillScrollContentWithImages();
             contentRectTransform.localPosition = new Vector2(0, 2 * Threshold);
+        }
+        
+        private void OnDestroy()
+        {
+            UIEventBus.OnProductionMenuItemSelected -= HandleProductionMenuItemSelected;
         }
 
         private void Update()
@@ -50,53 +59,11 @@ namespace UI
                 contentRectTransform.anchoredPosition = new Vector2(0, contentPos + Threshold);
             }
         }
-
-        private void MoveTopItemToBottom()
-        {
-            for (int i = 0; i < columnCount; i++)
-            {
-                RectTransform topItem = items[0];
-                items.RemoveAt(0);
-                items.Add(topItem);
-
-                bottomIndex++;
-                topIndex++;
-
-                topItem.anchoredPosition = GetItemPosition(bottomIndex);
-                topItem.SetAsLastSibling();
-            }
-        }
-
-        private void MoveBottomItemToTop()
-        {
-            for (int i = 0; i < columnCount; i++)
-            {
-                RectTransform bottomItem = items[^1];
-                items.RemoveAt(items.Count - 1);
-                items.Insert(0, bottomItem);
-
-                bottomIndex--;
-                topIndex--;
-
-                bottomItem.anchoredPosition = GetItemPosition(topIndex);
-                bottomItem.SetAsFirstSibling();
-            }
-        }
-
-        private Vector2 GetItemPosition(int index)
-        {
-            int rowCount = index / columnCount;
-            float initValue = padding.x + cellHeight / 2;
-            float multiplier = cellHeight + cellSpacing; // 150
-            return new Vector2(0, -rowCount * multiplier - (initValue));
-        }
-
+        
         private void Init()
         {
             itemCount = buildingDataList.Count;
             columnCount = gridLayoutGroup.constraintCount;
-            topIndex = 0;
-            bottomIndex = itemCount - 1;
 
             viewportHeight = scrollRectTransform.rect.size.y;
             cellHeight = gridLayoutGroup.cellSize.y;
@@ -123,6 +90,40 @@ namespace UI
                     items.Add(productionMenuItem.RectTransform);
                 }
             }
+        }
+
+        private void MoveTopItemToBottom()
+        {
+            for (int i = 0; i < columnCount; i++)
+            {
+                RectTransform topItem = items[0];
+                items.RemoveAt(0);
+                items.Add(topItem);
+
+                topItem.SetAsLastSibling();
+            }
+        }
+
+        private void MoveBottomItemToTop()
+        {
+            for (int i = 0; i < columnCount; i++)
+            {
+                RectTransform bottomItem = items[^1];
+                items.RemoveAt(items.Count - 1);
+                items.Insert(0, bottomItem);
+                bottomItem.SetAsFirstSibling();
+            }
+        }
+        
+        private void HandleProductionMenuItemSelected(ProductionMenuItem productionMenuItem)
+        {
+            if (lastSelectedItem != null)
+            {
+                lastSelectedItem.Unfocus();
+            }
+
+            lastSelectedItem = productionMenuItem;
+            lastSelectedItem.Focus();
         }
     }
 }

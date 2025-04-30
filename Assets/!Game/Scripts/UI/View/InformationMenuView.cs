@@ -34,6 +34,7 @@ namespace UI
         {
             entitySection.SetActive(false);
             productionSection.SetActive(false);
+            productionItems.Clear();
         }
         
         public void Display(EntityData entityData)
