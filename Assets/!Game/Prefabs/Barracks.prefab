@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5754208853918875271}
   - component: {fileID: 5754208853918875265}
   - component: {fileID: 5754208853918875264}
-  - component: {fileID: 5754208853918875270}
   - component: {fileID: 4181060655906254451}
   - component: {fileID: 2786828467438185478}
   - component: {fileID: 5754208853918875267}
@@ -33,7 +32,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5754208853918875295}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7, y: -3, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -79,18 +78,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6020ef65bbe524a71a21f4e32cab954f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5754208853918875270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5754208853918875295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5ed5ae674b0c4e418591422292014e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4181060655906254451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,12 +114,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86c5e4aa16bf54c3293fd50dd3c40fd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soldierProductionTime: 4
   entityComponent: {fileID: 5754208853918875271}
   damageableComponent: {fileID: 5754208853918875265}
   selectableComponent: {fileID: 5754208853918875264}
   buildingProduct: {fileID: 4181060655906254451}
   buildableComponent: {fileID: 2786828467438185478}
   spawnPoint: {fileID: 5754208854268377112}
+  spriteRenderer: {fileID: 5754208853918875292}
 --- !u!212 &5754208853918875292
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -195,7 +184,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -235,7 +224,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5754208854268377115}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2, z: 0}
+  m_LocalPosition: {x: 0, y: -2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

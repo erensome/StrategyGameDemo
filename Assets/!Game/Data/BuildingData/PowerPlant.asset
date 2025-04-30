@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: PowerPlant
   Size: {x: 2, y: 3}
-  Icon: {fileID: 21300000, guid: 3313c70bb8237435580e21b7fd68ce7f, type: 3}
+  Icon: {fileID: 21300000, guid: 9b1d37fa9496b43e3b504568978a5466, type: 3}
   Health: 50
   BuildingType: 1
   ProductionItems: []
