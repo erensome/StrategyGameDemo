@@ -1,30 +1,29 @@
 using Components;
 using EventBus;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class SelectionManager : MonoSingleton<SelectionManager>
 {
-    public ISelectable CurrentSelectable => currentSelectable;
+    [SerializeField] private LayerMask selectableLayerMask;
     private ISelectable currentSelectable;
-
     private const float SelectionScaleEffect = 1.2f;
 
+    public ISelectable CurrentSelectable => currentSelectable;
+    public LayerMask SelectableLayerMask => selectableLayerMask;
+    
     public void HandleSelection(Vector3 worldPosition)
     {
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
-        {
-            // Ignore clicks on UI elements
-            return;
-        }
+        if (InputManager.Instance.IsMouseOverUI) return; // Ignore clicks on UI elements
         
-        RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
-
+        RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero,  Mathf.Infinity, selectableLayerMask);
+        
         if (hit.collider == null) // Clicked on empty space
         {
             DeselectCurrent();
             return;
         }
+        
+        Debug.Log(hit.collider.name);
 
         ISelectable selectable = hit.collider.GetComponent<ISelectable>();
         if (selectable == currentSelectable) return; // Already selected
@@ -37,6 +36,8 @@ public class SelectionManager : MonoSingleton<SelectionManager>
         {
             DeselectCurrent();
         }
+        
+        GameStateManager.Instance.SetState(GameStateManager.GameState.Selecting);
     }
 
     private void ChangeSelection(ISelectable newSelectable)
