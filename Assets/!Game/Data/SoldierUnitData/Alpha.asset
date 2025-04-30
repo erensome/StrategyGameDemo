@@ -16,5 +16,5 @@ MonoBehaviour:
   Size: {x: 1, y: 1}
   Icon: {fileID: -647139941, guid: 4c9620c14490c486d935d3b0c5b461b0, type: 3}
   Health: 10
-  Damage: 10
+  Damage: 2
   SoldierType: 0
