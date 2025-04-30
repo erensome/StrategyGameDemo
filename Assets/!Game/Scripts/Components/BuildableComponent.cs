@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 
 namespace Components
 {
     public class BuildableComponent : MonoBehaviour, IBuildable
     {
+        public event Action OnBuild;
+        
         private BuildingData buildingData;
         private Vector2Int size;
         private float worldCellSize;
@@ -28,7 +31,8 @@ namespace Components
         public void Build()
         {
             BlockGrounds();
-            Debug.Log("Building...");
+            transform.SetParent(null);
+            OnBuild?.Invoke();
         }
         
         public void Remove()

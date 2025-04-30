@@ -7,13 +7,14 @@ namespace Components
 {
     public class MovableComponent : MonoBehaviour, IMovable
     {
+        public event Action<Vector3> OnTargetPositionChanged;
+        public float Speed => speed;
+        
         [SerializeField] private float speed = 5f;
         private Coroutine moveCoroutine;
+        private const float DistanceThreshold = 0.1f; 
 
-        public float Speed => speed;
-
-        public event Action<Vector3> OnTargetPositionChanged;
-
+        
         public void Move(Vector3 targetPosition)
         {
             List<Vector3> path = GroundManager.Instance.Pathfinding.FindPath(transform.position, targetPosition);
@@ -55,7 +56,7 @@ namespace Components
         {
             OnTargetPositionChanged?.Invoke(targetPosition);
 
-            while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
+            while (Vector3.Distance(transform.position, targetPosition) > DistanceThreshold)
             {
                 Vector3 position = transform.position;
                 float step = speed * Time.deltaTime;

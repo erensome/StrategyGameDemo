@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using UnityEngine;
 using UI;
 
@@ -8,7 +9,6 @@ namespace Components
     {
         [SerializeField] private HealthBar healthBarPrefab;
 
-        // Fields
         private float health;
         private float maxHealth;
 
@@ -47,27 +47,7 @@ namespace Components
             }
         }
 
-        #region Virtual Methods
-
-        protected virtual void AfterTakeDamage()
-        {
-        }
-
-        protected virtual void AfterHeal()
-        {
-        }
-
-        protected virtual void AfterDie()
-        {
-        }
-
-        protected virtual void AfterReset()
-        {
-        }
-
-        #endregion
-
-        #region IDamageable-Template Methods
+        #region IDamageable
 
         public void TakeDamage(float damage)
         {
@@ -75,7 +55,6 @@ namespace Components
 
             float oldHealth = health;
             health = Mathf.Clamp(health - damage, MinHealth, MaxHealth);
-            AfterTakeDamage();
             OnHealthChanged?.Invoke(oldHealth, health);
             if (health <= MinHealth)
             {
@@ -90,7 +69,6 @@ namespace Components
             float oldHealth = health;
             health = Mathf.Clamp(health + heal, MinHealth, MaxHealth);
 
-            AfterHeal();
             OnHealthChanged?.Invoke(oldHealth, health);
         }
 
@@ -100,7 +78,6 @@ namespace Components
 
             IsDead = true;
             health = MinHealth;
-            AfterDie();
             OnDeath?.Invoke();
         }
 
@@ -110,7 +87,6 @@ namespace Components
 
             float oldHealth = health;
             health = MaxHealth;
-            AfterReset();
             OnHealthChanged?.Invoke(oldHealth, health);
         }
 

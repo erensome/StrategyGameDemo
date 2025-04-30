@@ -29,6 +29,8 @@ public class GroundManager : MonoSingleton<GroundManager>
     private Vector2 visualOffset; // to center the cell sprites we should add visualOffset to the cell position
     
     public Pathfinding Pathfinding => pathfinding;
+    public int Width => width;
+    public int Height => height;
     public float CellSize => cellSize;
     
     private void Awake()
@@ -46,8 +48,15 @@ public class GroundManager : MonoSingleton<GroundManager>
     
     public void SetWalkableGround(int x, int y, bool isWalkable)
     {
-        var s = grid.GetGridObject(x, y);
-        s.PathNode.IsWalkable = isWalkable;
+        GroundCell groundCell = grid.GetGridObject(x, y);
+        groundCell.PathNode.IsWalkable = isWalkable;
+    }
+    
+    public bool IsWalkable(Vector3 position)
+    {
+        GroundCell groundCell = grid.GetGridObject(position);
+        if (groundCell == null) return false;
+        return groundCell.PathNode.IsWalkable;
     }
     
     /// <summary>
