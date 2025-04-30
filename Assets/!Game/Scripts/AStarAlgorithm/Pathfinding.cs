@@ -6,15 +6,19 @@ namespace AStarAlgorithm
 {
     public class Pathfinding
     {
+        public Grid<PathNode> Grid => grid;
+
         private Grid<PathNode> grid;
         private HashSet<PathNode> openList;
         private HashSet<PathNode> closedList;
         
-        public Grid<PathNode> Grid => grid;
         
         // Costs for movement
         private const int StraightCost = 10;
         private const int DiagonalCost = 14;
+        
+        // Constant
+        private readonly Vector3 multiplierVector = new Vector3(1f, 1f, 0f); // Used to adjust the pathfinding to 2D
 
         public Pathfinding(int width, int height, float cellSize, Vector3 originPosition, bool showDebug = false)
         {
@@ -37,7 +41,7 @@ namespace AStarAlgorithm
             List<Vector3> vectorPath = new List<Vector3>();
             foreach (PathNode pathNode in pathList)
             {
-                vectorPath.Add(grid.GetWorldPosition(pathNode.x, pathNode.y) + Vector3.one * grid.CellSize * 0.5f);
+                vectorPath.Add(grid.GetWorldPosition(pathNode.x, pathNode.y) + multiplierVector * (grid.CellSize * 0.5f));
             }
             
             return vectorPath;
