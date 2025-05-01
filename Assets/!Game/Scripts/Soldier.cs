@@ -28,14 +28,28 @@ public class Soldier : MonoBehaviour
         unitData = (SoldierUnitData)entityComponent.EntityData;
         
         damageableComponent.MaxHealth = unitData.Health;
-        damageableComponent.OnDeath += HandleDeath;
-        
-        soldierProduct.OnReturnedToPool += damageableComponent.ResetHealth;
-        
         attackerComponent.AttackDamage = unitData.Damage;
+
+        damageableComponent.OnDeath += HandleDeath;
+        soldierProduct.OnSpawned += HandleSpawn;
+        soldierProduct.OnReturnedToPool += damageableComponent.ResetHealth;
         attackerComponent.OnAttack += HandleAttack;
-        
         movableComponent.OnTargetPositionChanged += HandleTargetPositionChanged;
+    }
+
+    private void OnDestroy()
+    {
+        damageableComponent.OnDeath -= HandleDeath;
+        soldierProduct.OnSpawned -= HandleSpawn;
+        soldierProduct.OnReturnedToPool -= damageableComponent.ResetHealth;
+        attackerComponent.OnAttack -= HandleAttack;
+        movableComponent.OnTargetPositionChanged -= HandleTargetPositionChanged;
+    }
+
+    private void HandleSpawn()
+    {
+        damageableComponent.ResetHealth();
+        damageableComponent.SetActiveHealthBar(true);
     }
 
     private void HandleDeath()
