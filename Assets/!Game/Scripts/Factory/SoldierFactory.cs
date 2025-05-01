@@ -7,7 +7,7 @@ namespace Factory
     {
         [SerializeField] private List<SoldierUnitData> soldierUnits = new();
         
-        public SoldierProduct Produce(SoldierType soldierType, Vector3 position)
+        public SoldierProduct Produce(SoldierType soldierType, Vector2 position)
         {
             foreach (var soldierUnit in soldierUnits)
             {

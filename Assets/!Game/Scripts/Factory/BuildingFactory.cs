@@ -7,7 +7,7 @@ namespace Factory
     {
         [SerializeField] private List<BuildingData> buildings = new();
         
-        public BuildingProduct Produce(BuildingType type, Vector3 position)
+        public BuildingProduct Produce(BuildingType type, Vector2 position)
         {
             foreach (var building in buildings)
             {
