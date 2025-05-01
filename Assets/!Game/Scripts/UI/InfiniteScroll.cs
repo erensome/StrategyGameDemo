@@ -29,6 +29,7 @@ namespace UI
         private void Awake()
         {
             UIEventBus.OnProductionMenuItemSelected += HandleProductionMenuItemSelected;
+            GameEventBus.OnBuildingPlaced += HandleBuildingPlaced;
         }
 
         // Start is called before the first frame update
@@ -42,6 +43,7 @@ namespace UI
         private void OnDestroy()
         {
             UIEventBus.OnProductionMenuItemSelected -= HandleProductionMenuItemSelected;
+            GameEventBus.OnBuildingPlaced -= HandleBuildingPlaced;
         }
 
         private void Update()
@@ -120,10 +122,22 @@ namespace UI
             if (lastSelectedItem != null)
             {
                 lastSelectedItem.Unfocus();
+                lastSelectedItem = null;
             }
-
+            
+            if (productionMenuItem == null) return;
+            
             lastSelectedItem = productionMenuItem;
             lastSelectedItem.Focus();
+        }
+        
+        private void HandleBuildingPlaced(IBuildable buildable)
+        {
+            if (lastSelectedItem != null)
+            {
+                lastSelectedItem.Unfocus();
+                lastSelectedItem = null;
+            }
         }
     }
 }

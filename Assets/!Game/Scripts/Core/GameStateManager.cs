@@ -55,7 +55,7 @@ public class GameStateManager : MonoSingleton<GameStateManager>
 
     private void OnProductionMenuItemSelected(ProductionMenuItem obj)
     {
-        SetState(GameState.Building);
+        SetState(obj == null ? GameState.Idle : GameState.Building);
     }
     
     private void OnEntitySelected(EntityData obj)

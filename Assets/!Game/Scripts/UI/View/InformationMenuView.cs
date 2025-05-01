@@ -27,10 +27,10 @@ namespace UI
         private void Start()
         {
             // Hide sections at the start
-            InactivateSections();
+            Hide();
         }
         
-        private void InactivateSections()
+        public void Hide()
         {
             entitySection.SetActive(false);
             productionSection.SetActive(false);
@@ -42,7 +42,7 @@ namespace UI
             // null means clicked on empty space
             if (entityData == null)
             {
-                InactivateSections();
+                Hide();
                 return;
             }
             

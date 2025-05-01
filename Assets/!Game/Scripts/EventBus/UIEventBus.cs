@@ -8,7 +8,7 @@ namespace EventBus
         public static event Action<ProductionMenuItem> OnProductionMenuItemSelected;
     
         /// <summary>
-        /// Triggers when a building is selected on Production Menu.
+        /// Triggers when a building is selected on Production Menu. Null means double clicked on the same object.
         /// </summary>
         public static void TriggerProductionMenuItemSelected(ProductionMenuItem productionMenuItem)
         {

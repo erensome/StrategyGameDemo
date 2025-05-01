@@ -14,8 +14,8 @@ namespace InputState
         public void HandleRightClick(Vector3 mousePosition)
         {
             RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
-            bool isDamageable = hit.collider.TryGetComponent(out IDamageable damageable); 
             
+            bool isDamageable = hit.collider.TryGetComponent(out IDamageable damageable); 
             
             if (isDamageable)
             {
