@@ -24,7 +24,7 @@ namespace UI
         private float cellSpacing; // space between cells-images
         private float cellHeight; // height of each cell-image
         private Vector2 padding; // padding of the grid layout group
-        private readonly List<RectTransform> items = new();
+        private readonly List<ProductionMenuItem> items = new();
         
         private float Threshold => cellHeight + cellSpacing; // threshold for moving items
 
@@ -94,7 +94,7 @@ namespace UI
                         .GetComponent<ProductionMenuItem>();
                     productionMenuItem.Initialize(buildingDataList[buildingDataIndex]);
                     buildingDataIndex = (buildingDataIndex + 1) % itemCount;
-                    items.Add(productionMenuItem.RectTransform);
+                    items.Add(productionMenuItem);
                 }
             }
         }
@@ -103,11 +103,11 @@ namespace UI
         {
             for (int i = 0; i < columnCount; i++)
             {
-                RectTransform topItem = items[0];
+                ProductionMenuItem topItem = items[0];
                 items.RemoveAt(0);
                 items.Add(topItem);
-
-                topItem.SetAsLastSibling();
+                topItem.RectTransform.SetAsLastSibling();
+                if (topItem == lastSelectedItem) topItem.Unfocus();
             }
         }
 
@@ -115,10 +115,11 @@ namespace UI
         {
             for (int i = 0; i < columnCount; i++)
             {
-                RectTransform bottomItem = items[^1];
+                ProductionMenuItem bottomItem = items[^1];
                 items.RemoveAt(items.Count - 1);
                 items.Insert(0, bottomItem);
-                bottomItem.SetAsFirstSibling();
+                bottomItem.RectTransform.SetAsFirstSibling();
+                if (bottomItem == lastSelectedItem) bottomItem.Unfocus();
             }
         }
         
