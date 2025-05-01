@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using EventBus;
 using UnityEngine;
@@ -6,6 +5,9 @@ using UnityEngine.UI;
 
 namespace UI
 {
+    /// <summary>
+    /// This class is used to create an infinite scroll view for the production menu.
+    /// </summary>
     public class InfiniteScroll : MonoBehaviour
     {
         [Header("Data")]
@@ -74,6 +76,9 @@ namespace UI
             padding = new Vector2(gridLayoutGroup.padding.top, gridLayoutGroup.padding.bottom);
         }
 
+        /// <summary>
+        /// Fills the scroll content with images.
+        /// </summary>
         private void FillScrollContentWithImages()
         {
             int buildingDataIndex = 0;

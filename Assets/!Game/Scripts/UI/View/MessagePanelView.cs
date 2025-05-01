@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using EventBus;
 using TMPro;
@@ -6,6 +5,9 @@ using UnityEngine;
 
 namespace UI
 {
+    /// <summary>
+    /// View for the message panel
+    /// </summary>
     public class MessagePanelView : MonoBehaviour
     {
         [SerializeField] private RectTransform viewRectTransform;

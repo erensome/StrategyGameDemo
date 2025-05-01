@@ -7,7 +7,6 @@ using UnityEngine;
 public class BuildManager : MonoSingleton<BuildManager>
 {
     [SerializeField] private Blueprint blueprint;
-    private float cellSize;
     
     // Currently selected buildable object
     private IBuildable currentBuildable;
@@ -15,7 +14,6 @@ public class BuildManager : MonoSingleton<BuildManager>
     
     private void Awake()
     {
-        cellSize = GroundManager.Instance.CellSize;
         UIEventBus.OnProductionMenuItemSelected += OnProductionMenuItemSelected;
     }
     
@@ -68,7 +66,7 @@ public class BuildManager : MonoSingleton<BuildManager>
         {
             currentBuildable = building.GetComponent<IBuildable>();
             blueprint.Mark(currentBuildable, true);
-            blueprint.CreateBlueprint(currentBuildingData.Size, cellSize);
+            blueprint.CreateBlueprint(currentBuildingData.Size);
             building.transform.SetParent(blueprint.transform);
             building.transform.localPosition = new Vector3(0f, 0f, 1f); // Set the Z position to 1
         }

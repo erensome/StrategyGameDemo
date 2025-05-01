@@ -45,6 +45,11 @@ namespace Buildings
                 StopCoroutine(productionCoroutine);
         }
 
+        /// <summary>
+        /// Coroutine to produce units at the barracks.
+        /// Produces a random type of soldier at the spawn point every production time.
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator ProduceUnit()
         {
             while (true)
@@ -52,12 +57,12 @@ namespace Buildings
                 yield return waitForProductionTime;
 
                 int randomType = UnityEngine.Random.Range(0, soldierTypeCount);
+                
                 if (GroundManager.Instance.IsWalkable(spawnPoint.position))
                 {
-                    var soldier = SoldierFactory.Instance.Produce((SoldierType)randomType, spawnPoint.position);
-                    soldier.transform.SetParent(null);
+                    SoldierFactory.Instance.Produce((SoldierType)randomType, spawnPoint.position);
                 }
-                else
+                else // if SpawnPoint is not available then select a randomly new spawn point
                 {
                     spawnPoint.localPosition = UnityEngine.Random.onUnitSphere * buildingData.Size.x;
                     Debug.LogWarning("Spawn point is not available.");

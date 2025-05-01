@@ -7,6 +7,9 @@ public enum BuildingType
     PowerPlant,
 }
 
+/// <summary>
+/// This class is used to store the data for the buildings.
+/// </summary>
 [CreateAssetMenu(fileName = "BuildingData", menuName = "ScriptableObjects/GameData/BuildingData", order = 2)]
 public class BuildingData : EntityData
 {

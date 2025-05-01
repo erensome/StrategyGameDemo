@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Components
 {
+    /// <summary>
+    /// Component that handles the building process for an entity.
+    /// </summary>
     public class BuildableComponent : MonoBehaviour, IBuildable
     {
         public event Action OnBuild;
@@ -32,7 +35,11 @@ namespace Components
         public void Build()
         {
             BlockGrounds();
-            transform.SetParent(null);
+            
+            // Set the parent of the building to the ObjectPoolManager's pool parent
+            // to keep the hierarchy clean and organized.
+            Transform poolParent = ObjectPoolManager.Instance.GetPoolTypeParentByName(buildingData.Name);
+            transform.SetParent(poolParent);
             OnBuild?.Invoke();
         }
         

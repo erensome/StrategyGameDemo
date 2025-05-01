@@ -4,6 +4,9 @@ using Factory;
 
 namespace Components
 {
+    /// <summary>
+    /// Component that represents a product (producible by a factory) in the game.
+    /// </summary>
     public abstract class ProductComponent : MonoBehaviour, IProduct, IPoolable
     {
         public event Action OnProductInitialized;

@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Components
 {
+    /// <summary>
+    /// Component that handles the attack logic for an entity.
+    /// </summary>
     public class AttackerComponent : MonoBehaviour, IAttacker
     {
         public GameObject AttackerObject => gameObject;
@@ -62,13 +65,12 @@ namespace Components
             StopCurrentAttack();
             currentAttackRoutine = StartCoroutine(AutoAttackRoutine(target));
         }
-
-        public void StopAttack()
-        {
-            StopCurrentAttack();
-            HideBulletTrail();
-        }
-
+        
+        /// <summary>
+        /// Coroutine to handle the auto-attack routine.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <returns></returns>
         private IEnumerator AutoAttackRoutine(IDamageable target)
         {
             if (target == null)
@@ -84,13 +86,16 @@ namespace Components
             }
         }
 
+        /// <summary>
+        /// Fires a single shot at the target.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <returns></returns>
         private IEnumerator FireSingleShot(IDamageable target)
         {
-            MonoBehaviour targetObject = target as MonoBehaviour;
-
-            if (targetObject != null)
+            if (target.DamageableObject != null)
             {
-                Vector3 targetPosition = targetObject.transform.position;
+                Vector3 targetPosition = target.DamageableObject.transform.position;
 
                 if (!target.IsDead)
                 {
@@ -104,11 +109,16 @@ namespace Components
                     yield return waitForBulletLine;
                     HideBulletTrail();
 
-                    target.TakeDamage(attackDamage);
+                    target.TakeDamage(AttackDamage);
                 }
             }
         }
 
+        /// <summary>
+        /// Shows the bullet trail between the start and end points.
+        /// </summary>
+        /// <param name="startPoint"></param>
+        /// <param name="endPoint"></param>
         private void ShowBulletTrail(Vector3 startPoint, Vector3 endPoint)
         {
             if (bulletLine != null)
@@ -119,6 +129,9 @@ namespace Components
             }
         }
 
+        /// <summary>
+        /// Hides the bullet trail.
+        /// </summary>
         private void HideBulletTrail()
         {
             if (bulletLine != null)

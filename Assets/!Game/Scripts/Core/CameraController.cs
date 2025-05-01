@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -31,26 +30,29 @@ public class CameraController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Moves the camera based on the input values.
+    /// </summary>
+    /// <param name="horizontalInput"></param>
+    /// <param name="verticalInput"></param>
     public void Move(float horizontalInput, float verticalInput)
     {
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0).normalized;
         transform.position += direction * (moveSpeed * Time.deltaTime);
     }
-
-    // To zoom in orthographic size will be decreased
+    
     public void ZoomIn()
     {
         float newSize = mainCamera.orthographicSize;
-        newSize -= zoomSpeed * Time.deltaTime;
+        newSize -= zoomSpeed * Time.deltaTime; // To zoom in orthographic size will be decreased
         newSize = Mathf.Clamp(newSize, orthographicSizeBounds.x, orthographicSizeBounds.y);
         mainCamera.orthographicSize = newSize;
     }
     
-    // To zoom in orthographic size will be decreased
     public void ZoomOut()
     {
         float newSize = mainCamera.orthographicSize;
-        newSize += zoomSpeed * Time.deltaTime;
+        newSize += zoomSpeed * Time.deltaTime; // To zoom in orthographic size will be decreased
         newSize = Mathf.Clamp(newSize, orthographicSizeBounds.x, orthographicSizeBounds.y);
         mainCamera.orthographicSize = newSize;
     }

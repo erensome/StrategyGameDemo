@@ -1,12 +1,13 @@
-using System;
 using System.Collections.Generic;
-using EventBus;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI
 {
+    /// <summary>
+    /// This class is used to display the information menu for the selected entity.
+    /// </summary>
     public class InformationMenuView : MonoBehaviour
     {
         [Header("Entity Section")]
@@ -37,6 +38,10 @@ namespace UI
             productionItems.Clear();
         }
         
+        /// <summary>
+        /// Display the information menu for the selected entity.
+        /// </summary>
+        /// <param name="entityData"></param>
         public void Display(EntityData entityData)
         {
             // null means clicked on empty space
@@ -62,12 +67,20 @@ namespace UI
             }
         }
         
+        /// <summary>
+        /// Set the data for the entity section.
+        /// </summary>
+        /// <param name="entityData"></param>
         private void SetEntitySectionData(EntityData entityData)
         {
             entityNameText.text = entityData.Name;
             entityImage.sprite = entityData.Icon;
         }
         
+        /// <summary>
+        /// Set the data for the production section.
+        /// </summary>
+        /// <param name="buildingData"></param>
         private void SetProductionSectionData(BuildingData buildingData)
         {
             productionItems.AddRange(buildingData.ProductionItems);
@@ -79,6 +92,10 @@ namespace UI
             nextProductButton.interactable = currentProductionIndex < productionItems.Count - 1;
         }
 
+        /// <summary>
+        /// Set the data for the product info.
+        /// </summary>
+        /// <param name="productEntityData"></param>
         private void SetProductInfo(EntityData productEntityData)
         {
             productImage.sprite = productEntityData.Icon;

@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace UI
 {
+    /// <summary>
+    /// Presenter for the information menu
+    /// </summary>
     public class InformationMenuPresenter : MonoBehaviour
     {
         [SerializeField] private InformationMenuView view;

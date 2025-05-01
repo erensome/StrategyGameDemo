@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using EventBus;
 using InputState;
@@ -36,14 +35,6 @@ public class GameStateManager : MonoSingleton<GameStateManager>
     private void Start()
     {
         SetState(GameState.Idle);
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            Debug.Log($"Current State: {currentState}");
-        }
     }
 
     protected override void OnDestroy()

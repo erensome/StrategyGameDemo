@@ -5,6 +5,9 @@ using EventBus;
 
 namespace UI
 {
+    /// <summary>
+    /// This class is used to represent a production menu item in the UI.
+    /// </summary>
     public class ProductionMenuItem : MonoBehaviour, IPointerClickHandler
     {
         [SerializeField] private RectTransform rectTransform;

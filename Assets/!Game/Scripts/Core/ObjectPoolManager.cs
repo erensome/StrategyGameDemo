@@ -165,6 +165,11 @@ public class ObjectPoolManager : MonoSingleton<ObjectPoolManager>
     
     private Transform GetPoolTypeParent(ObjectPool objectPool)
     {
-        return poolParents.Find(x => x.name == objectPool.Name);
+        return GetPoolTypeParentByName(objectPool.Name);
+    }
+    
+    public Transform GetPoolTypeParentByName(string poolName)
+    {
+        return poolParents.Find(x => x.name == poolName);
     }
 }

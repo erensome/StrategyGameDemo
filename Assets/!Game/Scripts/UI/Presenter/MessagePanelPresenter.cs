@@ -1,9 +1,11 @@
-using System;
 using EventBus;
 using UnityEngine;
 
 namespace UI
 {
+    /// <summary>
+    /// Presenter for the message panel
+    /// </summary>
     public class MessagePanelPresenter : MonoBehaviour
     {
         [SerializeField] private MessagePanelView view;

@@ -75,6 +75,9 @@ public class GroundManager : MonoSingleton<GroundManager>
         );
     }
 
+    /// <summary>
+    /// Initialize ground cells
+    /// </summary>
     private void InitializeCells()
     {
         grid = new Grid<GroundCell>(
@@ -86,6 +89,12 @@ public class GroundManager : MonoSingleton<GroundManager>
         );
     }
     
+    /// <summary>
+    /// Creates a cell and sets its position and sprite.
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
     private GroundCell CreateCell(int x, int y)
     {
         GroundCell cell = ObjectPoolManager.Instance.GetObjectFromPool("GroundCell", worldOriginPoint.position,
@@ -104,12 +113,22 @@ public class GroundManager : MonoSingleton<GroundManager>
         return cell;
     }
 
+    /// <summary>
+    /// Returns a sprite by checking if the cell is a wall or not.
+    /// </summary>
+    /// <param name="isWall"></param>
+    /// <returns></returns>
     private Sprite SetSprite(bool isWall)
     {
         return isWall ? wallSprite : groundSprites[Random.Range(0, groundSprites.Length)];
     }
     
-    // This method is used to check if the cell is a wall or not
+    /// <summary>
+    /// Checks if the cell is a wall or not.
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
     private bool IsWall(int x, int y)
     {
         return x == 0 || y == 0 || x == width - 1 || y == height - 1;

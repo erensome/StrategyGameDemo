@@ -118,30 +118,4 @@ namespace GridSystem
             return new Vector2(x, y) * cellSize + originPosition;
         }
     }
-
-    public class GridObject
-    {
-        private int x, y;
-        private string name;
-        private Grid<GridObject> grid;
-        
-        public GridObject(Grid<GridObject> grid, int x, int y, string name)
-        {
-            this.grid = grid;
-            this.x = x;
-            this.y = y;
-            this.name = name;
-        }
-        
-        public void SetName(string name)
-        {
-            this.name = name;
-            grid.TriggerGridObjectChanged(x, y);
-        }
-        
-        public override string ToString()
-        {
-            return name;
-        }
-    }
 }

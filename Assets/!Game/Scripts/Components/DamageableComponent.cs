@@ -4,15 +4,17 @@ using UI;
 
 namespace Components
 {
+    /// <summary>
+    /// Component that handles the damageable logic for an entity.
+    /// </summary>
     public class DamageableComponent : MonoBehaviour, IDamageable
     {
-        public GameObject DamageableObject => gameObject;
-        
         private HealthBar healthBar;
         private float health;
         private float maxHealth;
 
         // Properties
+        public GameObject DamageableObject => gameObject;
         public float Health => health;
 
         public float MaxHealth

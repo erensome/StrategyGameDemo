@@ -1,9 +1,12 @@
 using UnityEngine;
 
-public static class TestUtils // For test
+/// <summary>
+/// This test utility class is used to create world text in the game world.
+/// </summary>
+public static class TestUtils
 {
     public static TextMesh CreateWorldText(string text, Transform parent = null, Vector3 localPosition = default,
-        Color? color = null, TextAnchor textAnchor = TextAnchor.MiddleCenter, int fontSize = 80, int sortingOrder = 0)
+        Color? color = null, TextAnchor textAnchor = TextAnchor.MiddleCenter, int fontSize = 40, int sortingOrder = 0)
     {
         color ??= Color.white;
         return CreateWorldText(parent, text, localPosition, (Color)color, textAnchor, fontSize, sortingOrder);

@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace Components
 {
+    /// <summary>
+    /// Component that represents a selectable object in the game.
+    /// </summary>
     // Requires a BoxCollider2D component to detect clicks with ray casting
     [RequireComponent(typeof(BoxCollider2D))]
     public class SelectableComponent : MonoBehaviour, ISelectable

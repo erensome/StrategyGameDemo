@@ -5,6 +5,9 @@ using Components;
 
 namespace UI
 {
+    /// <summary>
+    /// Class representing a health bar world UI element.
+    /// </summary>
     public class HealthBar : MonoBehaviour
     {
         [Header("References")] [SerializeField]
@@ -35,7 +38,19 @@ namespace UI
 
             AdjustToParentSize();
         }
+        
+        protected virtual void OnDestroy()
+        {
+            if (_damageableComponent != null)
+            {
+                _damageableComponent.OnHealthChanged -= UpdateDamageableBar;
+                _damageableComponent.OnDeath -= HandleDeath;
+            }
+        }
 
+        /// <summary>
+        /// Adjusts the health bar size to fit the parent entity's size.
+        /// </summary>
         private void AdjustToParentSize()
         {
             Transform parent = transform.parent;
@@ -70,15 +85,6 @@ namespace UI
 
             canvasGroup.DOFade(0, fadeDuration)
                 .OnComplete(() => { Destroy(gameObject); });
-        }
-
-        protected virtual void OnDestroy()
-        {
-            if (_damageableComponent != null)
-            {
-                _damageableComponent.OnHealthChanged -= UpdateDamageableBar;
-                _damageableComponent.OnDeath -= HandleDeath;
-            }
         }
     }
 }

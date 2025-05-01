@@ -2,15 +2,16 @@ using UnityEngine;
 
 namespace InputState
 {
+    /// <summary>
+    /// Handles the input state when the player is in the selecting state.
+    /// </summary>
     public class SelectingStateHandler : IInputStateHandler
     {
-        // SelectingState'de iken sol tıklama yapılırsa başka seçme işlemi yapılmış olabilir.
         public void HandleLeftClick(Vector3 mousePosition)
         {
              SelectionManager.Instance.HandleSelection(mousePosition);
         }
 
-        // SelectingState'de sağ tıklama yapıldıysa ya move yapılacaktır ya da attack yapılacaktır.
         public void HandleRightClick(Vector3 mousePosition)
         {
             RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
