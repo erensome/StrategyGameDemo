@@ -9,13 +9,13 @@ namespace BuildingSystem
     /// </summary>
     public class Blueprint : MonoBehaviour
     {
-        public bool? IsAreaAvailable { get; private set; }
-
-        [SerializeField] private BlueprintGrid blueprintGridPrefab;
         private Camera mainCamera;
         private float cellSize;
         private bool isBlueprintActive;
         private readonly List<BlueprintGrid> blueprintGrids = new();
+        private const string blueprintGridPrefabName = "BlueprintGrid";
+        
+        public bool? IsAreaAvailable { get; private set; }
         
         private void Awake()
         {
@@ -92,7 +92,8 @@ namespace BuildingSystem
             {
                 for (int j = 0; j < buildSize.y; j++)
                 {
-                    BlueprintGrid blueprintGrid = Instantiate(blueprintGridPrefab, transform);
+                    BlueprintGrid blueprintGrid =
+                        ObjectPoolManager.Instance.GetObjectFromPool(blueprintGridPrefabName, transform).GetComponent<BlueprintGrid>();
                     blueprintGrid.name = $"BlueprintGrid_{i}_{j}";
                     blueprintGrid.transform.localPosition = new Vector3(xStart + i * cellSize, yStart + j * cellSize, 0);
                     blueprintGrids.Add(blueprintGrid);
