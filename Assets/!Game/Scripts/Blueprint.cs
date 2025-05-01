@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ namespace BuildingSystem
         [SerializeField] private BlueprintGrid blueprintGridPrefab;
         private Camera mainCamera;
         private float cellSize;
+        private bool isBlueprintActive;
         private readonly List<BlueprintGrid> blueprintGrids = new();
         
         private void Awake()
@@ -20,10 +22,11 @@ namespace BuildingSystem
             cellSize = GroundManager.Instance.CellSize;
             mainCamera = Camera.main;
         }
-        
+
         public void Mark(IBuildable buildable, bool transparent)
         {
-            SpriteRenderer buildingSprite = (buildable as MonoBehaviour)?.GetComponent<SpriteRenderer>();
+            SpriteRenderer buildingSprite = buildable.BuildableObject.GetComponent<SpriteRenderer>();
+            
             if (buildingSprite == null)
             {
                 Debug.LogError("Building does not have a SpriteRenderer component.");
@@ -37,6 +40,8 @@ namespace BuildingSystem
         
         public void Move()
         {
+            if (!isBlueprintActive) return;
+            
             Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
             mousePosition.z = 0;
     
@@ -55,6 +60,8 @@ namespace BuildingSystem
         
         public void CheckGround()
         {
+            if (!isBlueprintActive) return;
+            
             bool isAvailable = true;
             foreach (var blueprintGrid in blueprintGrids)
             {
@@ -91,6 +98,8 @@ namespace BuildingSystem
                     blueprintGrids.Add(blueprintGrid);
                 }
             }
+            
+            isBlueprintActive = true;
         }
         
         public void DisposeBlueprint()
@@ -101,6 +110,7 @@ namespace BuildingSystem
             }
             
             blueprintGrids.Clear();
+            isBlueprintActive = false;
             IsAreaAvailable = null;
         }
         

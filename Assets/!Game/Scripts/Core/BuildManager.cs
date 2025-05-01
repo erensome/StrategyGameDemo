@@ -7,9 +7,11 @@ using UnityEngine;
 public class BuildManager : MonoSingleton<BuildManager>
 {
     [SerializeField] private Blueprint blueprint;
-    private IBuildable currentBuildable;
-    private bool isBlueprintActive;
     private float cellSize;
+    
+    // Currently selected buildable object
+    private IBuildable currentBuildable;
+    private BuildingData currentBuildingData;
     
     private void Awake()
     {
@@ -25,11 +27,8 @@ public class BuildManager : MonoSingleton<BuildManager>
 
     private void Update()
     {
-        if (isBlueprintActive)
-        {
-            blueprint.Move();
-            blueprint.CheckGround();
-        }
+        blueprint.Move();
+        blueprint.CheckGround();
     }
 
     public void HandleBuild()
@@ -39,7 +38,6 @@ public class BuildManager : MonoSingleton<BuildManager>
         
         blueprint.Mark(currentBuildable, false);
         currentBuildable.Build();
-        isBlueprintActive = false;
         blueprint.DisposeBlueprint();
         
         GameEventBus.TriggerBuildingPlaced(currentBuildable);
@@ -48,21 +46,39 @@ public class BuildManager : MonoSingleton<BuildManager>
     
     private void OnProductionMenuItemSelected(ProductionMenuItem productionMenuItem)
     {
-        if (currentBuildable != null) return; // Already building
+        if (currentBuildable != null)
+        {
+            DeselectOld();
+        }
+
+        if (productionMenuItem != null)
+        {
+            SelectNew(productionMenuItem.BuildingData);
+        }
+    }
+
+    private void SelectNew(BuildingData buildingData)
+    {
+        currentBuildingData = buildingData;
         
-        BuildingData buildingData = productionMenuItem.BuildingData;
         // Handle the building selection logic here
-        Debug.Log($"Building selected: {buildingData.Name}");
-        BuildingProduct building = BuildingFactory.Instance.Produce(buildingData.BuildingType, Vector3.zero);
+        BuildingProduct building = BuildingFactory.Instance.Produce(currentBuildingData.BuildingType, Vector3.zero);
         
         if (building != null)
         {
             currentBuildable = building.GetComponent<IBuildable>();
-            isBlueprintActive = true;
             blueprint.Mark(currentBuildable, true);
-            blueprint.CreateBlueprint(buildingData.Size, cellSize);
+            blueprint.CreateBlueprint(currentBuildingData.Size, cellSize);
             building.transform.SetParent(blueprint.transform);
-            building.transform.localPosition = Vector3.zero;
+            building.transform.localPosition = new Vector3(0f, 0f, 1f); // Set the Z position to 1
         }
+    }
+
+    private void DeselectOld()
+    {
+        ObjectPoolManager.Instance.ReturnObjectToPool(currentBuildingData.Name, currentBuildable.BuildableObject);
+        blueprint.DisposeBlueprint();
+        currentBuildingData = null;
+        currentBuildable = null;
     }
 }
