@@ -1,16 +1,37 @@
 using Components;
 using EventBus;
+using UI;
 using UnityEngine;
 
 public class SelectionManager : MonoSingleton<SelectionManager>
 {
     [SerializeField] private LayerMask selectableLayerMask;
     private ISelectable currentSelectable;
-    private const float SelectionScaleEffect = 1.2f;
 
     public ISelectable CurrentSelectable => currentSelectable;
     public LayerMask SelectableLayerMask => selectableLayerMask;
-    
+
+    private void Awake()
+    {
+        UIEventBus.OnProductionMenuItemSelected += OnProductionMenuItemSelected;
+    }
+
+    protected override void OnDestroy()
+    {
+        UIEventBus.OnProductionMenuItemSelected -= OnProductionMenuItemSelected;
+        base.OnDestroy();
+    }
+
+    /// <summary>
+    /// If the user clicks on the UI object then deselect the current entity selection.
+    /// </summary>
+    /// <param name="productionMenuItem"></param>
+    private void OnProductionMenuItemSelected(ProductionMenuItem productionMenuItem)
+    {
+        if (productionMenuItem == null) return; // Double click on the same object
+        DeselectCurrent();
+    }
+
     public void HandleSelection(Vector3 worldPosition)
     {
         if (InputManager.Instance.IsMouseOverUI) return; // Ignore clicks on UI elements
@@ -19,12 +40,11 @@ public class SelectionManager : MonoSingleton<SelectionManager>
         
         if (hit.collider == null) // Clicked on empty space
         {
+            GameEventBus.TriggerEntitySelected(null); // Trigger event with null to clear selection
             DeselectCurrent();
             return;
         }
         
-        Debug.Log(hit.collider.name);
-
         ISelectable selectable = hit.collider.GetComponent<ISelectable>();
         if (selectable == currentSelectable) return; // Already selected
 
@@ -46,8 +66,7 @@ public class SelectionManager : MonoSingleton<SelectionManager>
 
         DeselectCurrent();
         currentSelectable = newSelectable;
-        currentSelectable.Select();
-        SelectEffect();
+        currentSelectable?.Select();
         
         if (currentSelectable is MonoBehaviour component)
         {
@@ -61,24 +80,6 @@ public class SelectionManager : MonoSingleton<SelectionManager>
         if (currentSelectable == null) return;
 
         currentSelectable?.Deselect();
-        DeselectEffect();
         currentSelectable = null;
-        GameEventBus.TriggerEntitySelected(null); // Trigger event with null to clear selection
-    }
-
-    private void SelectEffect()
-    {
-        if (currentSelectable is MonoBehaviour component)
-        {
-            component.transform.localScale *= SelectionScaleEffect;
-        }
-    }
-
-    private void DeselectEffect()
-    {
-        if (currentSelectable is MonoBehaviour component)
-        {
-            component.transform.localScale /= SelectionScaleEffect;
-        }
     }
 }
