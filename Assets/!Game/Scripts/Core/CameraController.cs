@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    [SerializeField] private bool startAtWorldCenter = true;
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float zoomSpeed = 15f;
     [SerializeField, Tooltip("x value must be min and y value must be max")]
@@ -16,6 +18,16 @@ public class CameraController : MonoBehaviour
         {
             Debug.LogError("Main camera not found.");
             return;
+        }
+    }
+
+    private void Start()
+    {
+        if (startAtWorldCenter)
+        {
+            Vector3 worldCenter = GroundManager.Instance.WorldCenterPoint;
+            worldCenter.z = transform.position.z; // Keep the original z position
+            transform.position = worldCenter;
         }
     }
 

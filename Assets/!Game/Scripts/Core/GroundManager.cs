@@ -32,6 +32,7 @@ public class GroundManager : MonoSingleton<GroundManager>
     public int Width => width;
     public int Height => height;
     public float CellSize => cellSize;
+    public Vector2 WorldCenterPoint => worldOriginPoint.position + new Vector3(width * 0.5f, height * 0.5f) * cellSize;
     
     private void Awake()
     {
@@ -87,7 +88,9 @@ public class GroundManager : MonoSingleton<GroundManager>
     
     private GroundCell CreateCell(int x, int y)
     {
-        GroundCell cell = Instantiate(cellPrefab, worldOriginPoint.position, Quaternion.identity);
+        GroundCell cell = ObjectPoolManager.Instance.GetObjectFromPool("GroundCell", worldOriginPoint.position,
+            Quaternion.identity).GetComponent<GroundCell>();
+        
         cell.name = $"Cell_{x}_{y}";
 
         Transform cellTransform = cell.transform;
