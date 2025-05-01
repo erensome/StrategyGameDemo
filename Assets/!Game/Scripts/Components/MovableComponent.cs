@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using EventBus;
 using UnityEngine;
 
 namespace Components
@@ -22,6 +23,7 @@ namespace Components
             if (path == null || path.Count == 0)
             {
                 Debug.LogWarning("No path found.");
+                UIEventBus.TriggerMessageRaised("Clicked on an unreachable tile.");
                 return;
             }
 
