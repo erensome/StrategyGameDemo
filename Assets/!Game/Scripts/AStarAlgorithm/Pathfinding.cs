@@ -52,7 +52,7 @@ namespace AStarAlgorithm
             PathNode startNode = grid.GetGridObject(startX, startY);
             PathNode endNode = grid.GetGridObject(endX, endY);
             
-            if (!endNode.IsWalkable || !startNode.IsWalkable)
+            if (!endNode.IsWalkable)
             {
                 Debug.LogWarning("Start or end node is not walkable");
                 return null;

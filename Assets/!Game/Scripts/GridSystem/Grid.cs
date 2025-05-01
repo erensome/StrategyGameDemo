@@ -14,14 +14,14 @@ namespace GridSystem
         
         private int width, height;
         private float cellSize;
-        private Vector3 originPosition;
+        private Vector2 originPosition;
         private T[,] gridArray;
         private TextMesh[,] textArray;
 
         public int Width => width;
         public int Height => height;
         public float CellSize => cellSize;
-        public Vector3 OriginPosition => originPosition;
+        public Vector2 OriginPosition => originPosition;
         
         public Grid(int width, int height, float cellSize, Vector3 originPosition, Func<Grid<T>, int, int, T> createGridObject, bool showDebug = false)
         {
@@ -66,7 +66,7 @@ namespace GridSystem
             }
         }
         
-        public void GetXY(Vector3 worldPosition, out int x, out int y)
+        public void GetXY(Vector2 worldPosition, out int x, out int y)
         {
             x = Mathf.FloorToInt((worldPosition - originPosition).x / cellSize);
             y = Mathf.FloorToInt((worldPosition - originPosition).y / cellSize);
@@ -115,7 +115,7 @@ namespace GridSystem
         
         public Vector3 GetWorldPosition(int x, int y)
         {
-            return new Vector3(x, y) * cellSize + originPosition;
+            return new Vector2(x, y) * cellSize + originPosition;
         }
     }
 
