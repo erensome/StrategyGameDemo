@@ -24,8 +24,20 @@ public class Powerplant : MonoBehaviour
     {
         buildingData = (BuildingData)entityComponent.EntityData;
         damageableComponent.MaxHealth = buildingData.Health;
+        buildableComponent.OnBuild += HandlePowerplantBuild;
         damageableComponent.OnDeath += HandlePowerplantDestroy;
         spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+    
+    private void OnDestroy()
+    {
+        buildableComponent.OnBuild -= HandlePowerplantBuild;
+        damageableComponent.OnDeath -= HandlePowerplantDestroy;
+    }
+
+    private void HandlePowerplantBuild()
+    {
+        damageableComponent.SetActiveHealthBar(true);
     }
     
     private void HandlePowerplantDestroy()

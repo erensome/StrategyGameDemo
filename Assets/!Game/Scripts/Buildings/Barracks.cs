@@ -36,9 +36,9 @@ public class Barracks : MonoBehaviour
         buildingData = (BuildingData)entityComponent.EntityData;
         damageableComponent.MaxHealth = buildingData.Health;
         damageableComponent.OnDeath += HandleBarracksDestroy;
-        
         buildableComponent.OnBuild += HandleBarracksBuild;
         buildingProduct.OnReturnedToPool += StopProduction;
+        
         soldierTypeCount = Enum.GetValues(typeof(SoldierType)).Length;
         waitForProductionTime = new WaitForSeconds(soldierProductionTime);
         
@@ -47,12 +47,15 @@ public class Barracks : MonoBehaviour
 
     private void OnDestroy()
     {
+        damageableComponent.OnDeath -= HandleBarracksDestroy;
         buildingProduct.OnReturnedToPool -= StopProduction;
         buildableComponent.OnBuild -= HandleBarracksBuild;
     }
     
     private void HandleBarracksBuild()
     {
+        damageableComponent.SetActiveHealthBar(true);
+        
         if (productionCoroutine != null)
         {
             StopCoroutine(productionCoroutine);
