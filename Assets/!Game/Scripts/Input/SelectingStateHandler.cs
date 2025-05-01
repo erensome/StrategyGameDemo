@@ -15,9 +15,7 @@ namespace InputState
         {
             RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
             
-            bool isDamageable = hit.collider.TryGetComponent(out IDamageable damageable); 
-            
-            if (isDamageable)
+            if (hit.collider != null && hit.collider.TryGetComponent(out IDamageable damageable))
             {
                 AttackManager.Instance.HandleAttack(damageable);
             }

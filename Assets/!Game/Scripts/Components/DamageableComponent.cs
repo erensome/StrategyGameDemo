@@ -8,7 +8,6 @@ namespace Components
     {
         public GameObject DamageableObject => gameObject;
         
-        [SerializeField] private HealthBar healthBarPrefab;
         private HealthBar healthBar;
         private float health;
         private float maxHealth;
@@ -38,15 +37,10 @@ namespace Components
         // Constants
         private const float MinHealth = 0f;
 
-        protected virtual void Start()
+        protected virtual void Awake()
         {
-            health = maxHealth;
-
-            if (healthBarPrefab != null)
-            {
-                healthBar = Instantiate(healthBarPrefab, transform);
-                healthBar.gameObject.SetActive(false);
-            }
+            healthBar = ObjectPoolManager.Instance.GetObjectFromPool("HealthBar", transform).GetComponent<HealthBar>();
+            SetActiveHealthBar(false);
         }
         
         public void SetActiveHealthBar(bool isActive)

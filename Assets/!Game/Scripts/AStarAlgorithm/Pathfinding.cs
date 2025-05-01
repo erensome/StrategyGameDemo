@@ -47,14 +47,14 @@ namespace AStarAlgorithm
             return vectorPath;
         }
 
-        public List<PathNode> FindPath(int startX, int startY, int endX, int endY)
+        private List<PathNode> FindPath(int startX, int startY, int endX, int endY)
         {
             PathNode startNode = grid.GetGridObject(startX, startY);
             PathNode endNode = grid.GetGridObject(endX, endY);
             
-            if (!endNode.IsWalkable)
+            if (endNode == null || !endNode.IsWalkable)
             {
-                Debug.LogWarning("Start or end node is not walkable");
+                Debug.LogWarning("End node is not walkable");
                 return null;
             }
             

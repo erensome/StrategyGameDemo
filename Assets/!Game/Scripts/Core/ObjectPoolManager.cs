@@ -103,14 +103,13 @@ public class ObjectPoolManager : MonoSingleton<ObjectPoolManager>
         {
             obj = objectPool.AvailableObjects[0];
             objectPool.AvailableObjects.RemoveAt(0);
-            obj.transform.SetParent(parent);
         }
         else
         {
-            obj = Instantiate(objectPool.Prefab, parent);
+            obj = Instantiate(objectPool.Prefab);
         }
         
-        // obj.transform.SetPositionAndRotation(position, rotation);
+        if (parent != null) obj.transform.SetParent(parent);
         obj.SetActive(true);
         
         IPoolable poolable = obj.GetComponent<IPoolable>();
