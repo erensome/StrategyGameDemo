@@ -1,5 +1,4 @@
 using System;
-using DG.Tweening;
 using UnityEngine;
 using UI;
 
@@ -7,8 +6,10 @@ namespace Components
 {
     public class DamageableComponent : MonoBehaviour, IDamageable
     {
+        public GameObject DamageableObject => gameObject;
+        
         [SerializeField] private HealthBar healthBarPrefab;
-
+        private HealthBar healthBar;
         private float health;
         private float maxHealth;
 
@@ -43,7 +44,16 @@ namespace Components
 
             if (healthBarPrefab != null)
             {
-                Instantiate(healthBarPrefab, transform);
+                healthBar = Instantiate(healthBarPrefab, transform);
+                healthBar.gameObject.SetActive(false);
+            }
+        }
+        
+        public void SetActiveHealthBar(bool isActive)
+        {
+            if (healthBar != null)
+            {
+                healthBar.gameObject.SetActive(isActive);
             }
         }
 

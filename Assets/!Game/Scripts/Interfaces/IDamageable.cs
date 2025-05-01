@@ -1,5 +1,8 @@
+using UnityEngine;
+
 public interface IDamageable 
 {
+    GameObject DamageableObject { get; }
     float Health { get; }
     float MaxHealth { get; }
     bool IsDead { get; }

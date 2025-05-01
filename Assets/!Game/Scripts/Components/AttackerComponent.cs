@@ -6,6 +6,8 @@ namespace Components
 {
     public class AttackerComponent : MonoBehaviour, IAttacker
     {
+        public GameObject AttackerObject => gameObject;
+
         [SerializeField, Range(0.5f, 5f)] private float attackCooldown = 1f;
         [SerializeField] private Transform muzzlePoint;
         [SerializeField] private LineRenderer bulletLine;
@@ -103,7 +105,6 @@ namespace Components
                     HideBulletTrail();
 
                     target.TakeDamage(attackDamage);
-                    Debug.Log($"Dealt {attackDamage} damage to target");
                 }
             }
         }

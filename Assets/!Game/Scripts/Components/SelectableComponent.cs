@@ -6,16 +6,18 @@ namespace Components
     [RequireComponent(typeof(BoxCollider2D))]
     public class SelectableComponent : MonoBehaviour, ISelectable
     {
+        public GameObject SelectableObject => gameObject;
+        
+        private const float SelectionScaleEffect = 1.2f;
+        
         public void Select()
         {
-            // Implement selection logic here
-            Debug.Log("Selected: " + gameObject.name);
+            transform.localScale *= SelectionScaleEffect;
         }
 
         public void Deselect()
         {
-            // Implement deselection logic here
-            Debug.Log("Deselected: " + gameObject.name);
+            transform.localScale /= SelectionScaleEffect;
         }
     }
 }

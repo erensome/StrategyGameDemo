@@ -1,5 +1,9 @@
+using UnityEngine;
+
 public interface ISelectable
 {
+    GameObject SelectableObject { get; }
+    
     /// <summary>
     /// Select the object
     /// </summary>

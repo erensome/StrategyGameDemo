@@ -6,6 +6,7 @@ namespace Components
     public class BuildableComponent : MonoBehaviour, IBuildable
     {
         public event Action OnBuild;
+        public GameObject BuildableObject => gameObject;
         
         private BuildingData buildingData;
         private Vector2Int size;
