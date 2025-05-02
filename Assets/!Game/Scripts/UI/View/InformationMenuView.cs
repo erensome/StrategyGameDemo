@@ -22,12 +22,6 @@ namespace UI
         [SerializeField] private TextMeshProUGUI productNameText;
         [SerializeField] private Button previousProductButton;
         [SerializeField] private Button nextProductButton;
-
-        private List<EntityData> productionItems = new();
-        private EntityData currentProductEntityData;
-        private int currentProductionIndex = 0;
-        
-        public EntityData CurrentProductEntityData => currentProductEntityData;
         
         private void Start()
         {
@@ -39,96 +33,31 @@ namespace UI
         {
             entitySection.SetActive(false);
             productionSection.SetActive(false);
-            productionItems.Clear();
         }
         
-        /// <summary>
-        /// Display the information menu for the selected entity.
-        /// </summary>
-        /// <param name="entityData"></param>
-        public void Display(EntityComponent entityComponent)
+        public void DisplayEntity(EntityData entityData)
         {
-            // null means clicked on empty space
-            if (entityComponent == null || entityComponent.EntityData == null)
-            {
-                Hide();
-                return;
-            }
-            
-            entitySection.gameObject.SetActive(true);
-            SetEntitySectionData(entityComponent.EntityData);
-
-            // The entity is a building and it has production items, then show the production section
-            if (entityComponent.EntityData is BuildingData buildingData && buildingData.ProductionItems.Count > 0)
-            {
-                productionSection.SetActive(true);
-                SetProductionSectionData(buildingData);
-            }
-            else
-            {
-                productionSection.SetActive(false);
-                productionItems.Clear();
-            }
-        }
-        
-        /// <summary>
-        /// Set the data for the entity section.
-        /// </summary>
-        /// <param name="entityData"></param>
-        private void SetEntitySectionData(EntityData entityData)
-        {
+            entitySection.SetActive(true);
             entityNameText.text = entityData.Name;
             entityImage.sprite = entityData.Icon;
         }
-        
-        /// <summary>
-        /// Set the data for the production section.
-        /// </summary>
-        /// <param name="buildingData"></param>
-        private void SetProductionSectionData(BuildingData buildingData)
+
+        public void DisplayProduct(EntityData productData)
         {
-            productionItems.AddRange(buildingData.ProductionItems);
-            currentProductionIndex = 0;
-            SetProductInfo(productionItems[currentProductionIndex]);
-            
-            // Set buttons' interactable state
-            previousProductButton.interactable = currentProductionIndex > 0;
-            nextProductButton.interactable = currentProductionIndex < productionItems.Count - 1;
+            productionSection.SetActive(true);
+            productNameText.text = productData.Name;
+            productImage.sprite = productData.Icon;
         }
 
-        /// <summary>
-        /// Set the data for the product info.
-        /// </summary>
-        /// <param name="productEntityData"></param>
-        private void SetProductInfo(EntityData productEntityData)
+        public void HideProductionSection()
         {
-            productImage.sprite = productEntityData.Icon;
-            productNameText.text = productEntityData.Name;
-            currentProductEntityData = productEntityData;
+            productionSection.SetActive(false);
         }
-        
-        public void PreviousProductionItem()
-        {
-            SetProductInfo(productionItems[--currentProductionIndex]);
 
-            if (currentProductionIndex == 0)
-            {
-                previousProductButton.interactable = false;   
-            }
-            
-            nextProductButton.interactable = true;
-        }
-        
-        public void NextProductionItem()
+        public void SetProductNavigationInteractable(bool previousEnabled, bool nextEnabled)
         {
-            SetProductInfo(productionItems[++currentProductionIndex]);
-
-            if (currentProductionIndex == productionItems.Count - 1)
-            {
-                nextProductButton.interactable = false;   
-            }
-            
-            previousProductButton.interactable = true;
+            previousProductButton.interactable = previousEnabled;
+            nextProductButton.interactable = nextEnabled;
         }
     }
 }
