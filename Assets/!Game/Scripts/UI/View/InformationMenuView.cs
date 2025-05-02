@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Components;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
