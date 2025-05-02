@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Components;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,7 +24,10 @@ namespace UI
         [SerializeField] private Button nextProductButton;
 
         private List<EntityData> productionItems = new();
+        private EntityData currentProductEntityData;
         private int currentProductionIndex = 0;
+        
+        public EntityData CurrentProductEntityData => currentProductEntityData;
         
         private void Start()
         {
@@ -42,20 +46,20 @@ namespace UI
         /// Display the information menu for the selected entity.
         /// </summary>
         /// <param name="entityData"></param>
-        public void Display(EntityData entityData)
+        public void Display(EntityComponent entityComponent)
         {
             // null means clicked on empty space
-            if (entityData == null)
+            if (entityComponent == null || entityComponent.EntityData == null)
             {
                 Hide();
                 return;
             }
             
             entitySection.gameObject.SetActive(true);
-            SetEntitySectionData(entityData);
+            SetEntitySectionData(entityComponent.EntityData);
 
             // The entity is a building and it has production items, then show the production section
-            if (entityData is BuildingData buildingData && buildingData.ProductionItems.Count > 0)
+            if (entityComponent.EntityData is BuildingData buildingData && buildingData.ProductionItems.Count > 0)
             {
                 productionSection.SetActive(true);
                 SetProductionSectionData(buildingData);
@@ -100,6 +104,7 @@ namespace UI
         {
             productImage.sprite = productEntityData.Icon;
             productNameText.text = productEntityData.Name;
+            currentProductEntityData = productEntityData;
         }
         
         public void PreviousProductionItem()

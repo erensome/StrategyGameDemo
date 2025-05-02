@@ -1,5 +1,4 @@
-using System;
-using System.Collections;
+using System.Collections.Generic;
 using Components;
 using UnityEngine;
 using Factory;
@@ -11,31 +10,34 @@ namespace Buildings
     [RequireComponent(typeof(SelectableComponent))]
     [RequireComponent(typeof(BuildingProduct))]
     [RequireComponent(typeof(BuildableComponent))]
+    [RequireComponent(typeof(ProducerComponent))]
     public class Barracks : BaseBuilding
     {
+        [SerializeField] private ProducerComponent producerComponent;
+        
         [Header("Barracks Settings")]
-        [SerializeField] private float soldierProductionTime = 4f;
         [SerializeField] private Transform spawnPoint;
-
+        
+        private List<Vector2> spawnPoints = new()
+        {
+            new Vector2(0, -2.5f),
+            new Vector2(0, 2.5f),
+            new Vector2(-2.5f, 0),
+            new Vector2(2.5f, 0)
+        };
+        
         private Coroutine productionCoroutine;
-        private WaitForSeconds waitForProductionTime;
-        private int soldierTypeCount;
 
         protected override void Awake()
         {
             base.Awake();
-            soldierTypeCount = Enum.GetValues(typeof(SoldierType)).Length;
-            waitForProductionTime = new WaitForSeconds(soldierProductionTime);
+            producerComponent.OnProduced += HandleProduce;
         }
 
         protected override void OnBuilt()
         {
             base.OnBuilt();
-
-            if (productionCoroutine != null)
-                StopCoroutine(productionCoroutine);
-
-            productionCoroutine = StartCoroutine(ProduceUnit());
+            CheckSpawnPoint();
         }
 
         protected override void OnReturnedToPool()
@@ -44,30 +46,50 @@ namespace Buildings
             if (productionCoroutine != null)
                 StopCoroutine(productionCoroutine);
         }
+        
+        private void HandleProduce(EntityData entityData)
+        {
+            ProduceUnit(entityData);
+        }
 
         /// <summary>
         /// Coroutine to produce units at the barracks.
         /// Produces a random type of soldier at the spawn point every production time.
         /// </summary>
         /// <returns></returns>
-        private IEnumerator ProduceUnit()
+        private void ProduceUnit(EntityData entityData)
         {
-            while (true)
+            var selectedEntity = buildingData.ProductionItems.Find(i => i == entityData);
+            SoldierUnitData soldierUnitData = selectedEntity as SoldierUnitData;
+            if (soldierUnitData == null)
             {
-                yield return waitForProductionTime;
+                Debug.LogError("Selected entity is not a soldier unit data.");
+                return;
+            }
+            
+            if (GroundManager.Instance.IsWalkable(spawnPoint.position))
+            {
+                SoldierFactory.Instance.Produce(soldierUnitData.SoldierType, spawnPoint.position);
+            }
+            else // if SpawnPoint is not available then select a randomly new spawn point
+            {
+                Debug.LogError("Spawn point is not available.");
+            }
+        }
 
-                int randomType = UnityEngine.Random.Range(0, soldierTypeCount);
-                
-                if (GroundManager.Instance.IsWalkable(spawnPoint.position))
+        private void CheckSpawnPoint()
+        {
+            foreach (var point in spawnPoints)
+            {
+                if (GroundManager.Instance.IsWalkable(point))
                 {
-                    SoldierFactory.Instance.Produce((SoldierType)randomType, spawnPoint.position);
-                }
-                else // if SpawnPoint is not available then select a randomly new spawn point
-                {
-                    spawnPoint.localPosition = UnityEngine.Random.onUnitSphere * buildingData.Size.x;
-                    Debug.LogWarning("Spawn point is not available.");
+                    spawnPoint.localPosition = point;
+                    return;
                 }
             }
+            
+            // If no spawn point is available, set the spawn point to the center of the building
+            spawnPoint.localPosition = Vector2.zero;
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Components;
 using EventBus;
 using InputState;
 using UI;
@@ -49,7 +50,7 @@ public class GameStateManager : MonoSingleton<GameStateManager>
         SetState(obj == null ? GameState.Idle : GameState.Building);
     }
     
-    private void OnEntitySelected(EntityData obj)
+    private void OnEntitySelected(EntityComponent obj)
     {
         SetState(obj == null ? GameState.Idle : GameState.Selecting);
     }

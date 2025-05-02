@@ -71,7 +71,7 @@ public class SelectionManager : MonoSingleton<SelectionManager>
         if (currentSelectable is MonoBehaviour component)
         {
             EntityComponent entityComponent = component.GetComponent<EntityComponent>();
-            GameEventBus.TriggerEntitySelected(entityComponent.EntityData);
+            GameEventBus.TriggerEntitySelected(entityComponent);
         }
     }
 

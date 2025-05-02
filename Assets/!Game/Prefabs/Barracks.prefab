@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5754208853918875264}
   - component: {fileID: 4181060655906254451}
   - component: {fileID: 2786828467438185478}
+  - component: {fileID: 4991654997762338814}
   - component: {fileID: 5754208853918875267}
   - component: {fileID: 5754208853918875292}
   - component: {fileID: 5754208853918875266}
@@ -65,7 +66,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5ea89e0f461a423ca2f8ed2fb0cdb58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBarPrefab: {fileID: 5316261387875183884, guid: e0de8917584f145d4a8b321f99b5d995, type: 3}
 --- !u!114 &5754208853918875264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,6 +102,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35d9ac0491a134a26870b822f24a2eaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4991654997762338814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5754208853918875295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d92ea4488ac4b4181ad1551872a2f176, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5754208853918875267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,12 +126,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86c5e4aa16bf54c3293fd50dd3c40fd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soldierProductionTime: 4
   entityComponent: {fileID: 5754208853918875271}
   damageableComponent: {fileID: 5754208853918875265}
   selectableComponent: {fileID: 5754208853918875264}
   buildingProduct: {fileID: 4181060655906254451}
   buildableComponent: {fileID: 2786828467438185478}
+  producerComponent: {fileID: 4991654997762338814}
   spawnPoint: {fileID: 5754208854268377112}
 --- !u!212 &5754208853918875292
 SpriteRenderer:

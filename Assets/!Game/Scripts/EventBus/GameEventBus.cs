@@ -1,19 +1,20 @@
 using System;
+using Components;
 
 namespace EventBus
 {
     public static class GameEventBus
     {
-        public static event Action<EntityData> OnEntitySelected;
+        public static event Action<EntityComponent> OnEntitySelected;
         public static event Action<IBuildable> OnBuildingPlaced;
         
         /// <summary>
         /// Triggers when an entity is selected in game board with the mouse.
         /// </summary>
-        /// <param name="entityData">Selected entity's data.</param>
-        public static void TriggerEntitySelected(EntityData entityData)
+        /// <param name="entityComponent">Selected entity's component.</param>
+        public static void TriggerEntitySelected(EntityComponent entityComponent)
         {
-            OnEntitySelected?.Invoke(entityData);
+            OnEntitySelected?.Invoke(entityComponent);
         }
         
         /// <summary>
